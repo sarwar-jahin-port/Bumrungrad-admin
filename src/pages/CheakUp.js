@@ -162,16 +162,16 @@ const CheakUp = () => {
                 <span className="font-semibold"> HN Number : </span>
                 {onecheckUp?.HnNumber}
               </p>
-              {onecheckUp.prefferdDoctor && (
+              {onecheckUp?.prefferdDoctor && (
                 <p className="mt-2.5">
                   <span className="font-semibold">Prefferd Doctor: </span>
-                  {onecheckUp.prefferdDoctor}
+                  {onecheckUp?.prefferdDoctor}
                 </p>
               )}
-              {onecheckUp.specialty && (
+              {onecheckUp?.specialty && (
                 <p className="mt-2.5">
                   <span className="font-semibold">Specialty : </span>
-                  {onecheckUp.specialty}
+                  {onecheckUp?.specialty}
                 </p>
               )}
 
