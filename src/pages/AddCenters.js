@@ -1,4 +1,4 @@
-import {
+﻿import {
   Button,
   Input,
 } from '@material-tailwind/react'
@@ -142,7 +142,7 @@ export default function AddCenters() {
       // formData.append('conditions', JSON.stringify(conditions))
       // formData.append('treatments', JSON.stringify(treatments))
 
-      fetch('https://api.discoverinternationalmedicalservice.com/api/add/center', {
+      fetch('http://127.0.0.1:8000/api/add/center', {
         method: 'POST',
         body: formData,
       })

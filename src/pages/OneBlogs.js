@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import {
@@ -57,7 +57,7 @@ const OneBlogs = () => {
   // get data
   useEffect(() => {
     fetch(
-      `https://api.discoverinternationalmedicalservice.com/api/get/blogs/${slug}`
+      `http://127.0.0.1:8000/api/get/blogs/${slug}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -88,7 +88,7 @@ const OneBlogs = () => {
     formData.append("blogDescription", editorValue);
     //append data with keys
     fetch(
-      `https://api.discoverinternationalmedicalservice.com/api/update/blogs/${oneBlog?.id}`,
+      `http://127.0.0.1:8000/api/update/blogs/${oneBlog?.id}`,
       {
         method: "POST",
         body: formData,

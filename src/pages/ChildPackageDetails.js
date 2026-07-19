@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
@@ -108,7 +108,7 @@ const ChildPackageDetails = () => {
 
   //get parent package
   useEffect(() => {
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/package")
+    fetch("http://127.0.0.1:8000/api/get/package")
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 404) {
@@ -121,7 +121,7 @@ const ChildPackageDetails = () => {
   //get packages details
   useEffect(() => {
     setLoader(true);
-    fetch(`https://api.discoverinternationalmedicalservice.com/api/get/sub/package/${slug}`)
+    fetch(`http://127.0.0.1:8000/api/get/sub/package/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
@@ -176,7 +176,7 @@ const ChildPackageDetails = () => {
     // formData.append("exclusions", JSON.stringify(treatments));
 
     fetch(
-      `https://api.discoverinternationalmedicalservice.com/api/update/sub/package/${childDetailsPackage?.id}`,
+      `http://127.0.0.1:8000/api/update/sub/package/${childDetailsPackage?.id}`,
       {
         method: "POST",
         body: formData,

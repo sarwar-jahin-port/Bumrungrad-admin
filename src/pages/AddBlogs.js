@@ -1,4 +1,4 @@
-import { Button, Input, Option, Select, Spinner } from "@material-tailwind/react";
+﻿import { Button, Input, Option, Select, Spinner } from "@material-tailwind/react";
 import { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -61,7 +61,7 @@ const AddBlogs = () => {
     formData.append("region", country);
     formData.append("blogDescription", editorValue);
     //append data with keys
-    fetch("https://api.discoverinternationalmedicalservice.com/api/add/blogs", {
+    fetch("http://127.0.0.1:8000/api/add/blogs", {
       method: "POST",
       body: formData,
     })

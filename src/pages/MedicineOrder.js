@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { Card, Typography } from "@material-tailwind/react";
 import { AiFillEye } from "react-icons/ai";
@@ -22,7 +22,7 @@ const MedicineOrder = () => {
     const aggre = window.confirm(`You Want to Delete, ${medicineData?.name}.`);
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/order_medicines/${medicineData.id}`
+        `http://127.0.0.1:8000/api/delete/order_medicines/${medicineData.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -46,7 +46,7 @@ const MedicineOrder = () => {
     "Clear Order",
   ];
   useEffect(() => {
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/order/medicine")
+    fetch("http://127.0.0.1:8000/api/get/order/medicine")
       .then((res) => res.json())
       .then((data) => {
         setOrderMedicine(data.data);

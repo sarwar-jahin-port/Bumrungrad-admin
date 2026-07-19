@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+﻿import React, { useEffect } from "react";
 import { useState } from "react";
 import Loader from "../components/Loader";
 import { Link } from "react-router-dom";
@@ -7,7 +7,7 @@ const Blogslist = () => {
   const [allBlogs, setAllBlogs] = useState([]);
 
   useEffect(() => {
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/blogs")
+    fetch("http://127.0.0.1:8000/api/get/blogs")
       .then((res) => res.json())
       .then((data) => {
         setAllBlogs(data.data);
@@ -18,7 +18,7 @@ const Blogslist = () => {
     const aggre = window.confirm(`You Want to Delete, ${oneBlogs?.blogTitle}.`);
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/blogs/${oneBlogs.id}`
+        `http://127.0.0.1:8000/api/delete/blogs/${oneBlogs.id}`
       )
         .then((res) => res.json())
         .then((data) => {

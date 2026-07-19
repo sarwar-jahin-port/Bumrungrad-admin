@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import {
   Button,
@@ -24,7 +24,7 @@ const CenterList = () => {
     const aggre = window.confirm(`You Want to Delete, ${centerinfo?.name}.`);
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/centers/${centerinfo.id}`
+        `http://127.0.0.1:8000/api/delete/centers/${centerinfo.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -39,7 +39,7 @@ const CenterList = () => {
 
   const TABLE_HEAD = ["SL No", "Image", "Name", "Location", "Action"];
   useEffect(() => {
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/centers")
+    fetch("http://127.0.0.1:8000/api/get/centers")
       .then((res) => res.json())
       .then((data) => {
         setCenter(data?.response?.data);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import Loader from "../components/Loader";
 import { AiFillDelete } from "react-icons/ai";
 
@@ -12,7 +12,7 @@ export default function Users() {
     )
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/air_pickups/${user.id}`
+        `http://127.0.0.1:8000/api/delete/air_pickups/${user.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -30,7 +30,7 @@ export default function Users() {
   //get user data
   useEffect(() => {
     setLoader(true);
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/users")
+    fetch("http://127.0.0.1:8000/api/get/users")
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {

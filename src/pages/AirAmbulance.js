@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import Loader from "../components/Loader";
 import {
@@ -28,7 +28,7 @@ const AirAmbulance = () => {
     );
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/air_ambulances/${airAmbulanceData.id}`
+        `http://127.0.0.1:8000/api/delete/air_ambulances/${airAmbulanceData.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -44,7 +44,7 @@ const AirAmbulance = () => {
   };
   const TABLE_HEAD = ["Request ID", "Entry Date", "Passport Copy", "Action"];
   useEffect(() => {
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/air/ambulance")
+    fetch("http://127.0.0.1:8000/api/get/air/ambulance")
       .then((res) => res.json())
       .then((data) => {
         setAirAmbulancet(data.data);

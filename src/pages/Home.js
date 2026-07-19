@@ -1,4 +1,4 @@
-import { Card } from '@material-tailwind/react'
+﻿import { Card } from '@material-tailwind/react'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Loader from '../components/Loader'
@@ -7,7 +7,7 @@ export default function Home() {
   const [allData, setAllDta] = useState()
 
   useEffect(() => {
-    fetch('https://api.discoverinternationalmedicalservice.com/api/get/category/length')
+    fetch('http://127.0.0.1:8000/api/get/category/length')
       .then((res) => res.json())
       .then((data) => {
         setAllDta(Object.values(data?.data))

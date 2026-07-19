@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
 import Loader from "../components/Loader";
 
@@ -12,7 +12,7 @@ const ChildPackage = () => {
     const aggre = window.confirm(`You Want to Delete, ${cp?.title}.`);
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/sub_packages/${cp.id}`
+        `http://127.0.0.1:8000/api/delete/sub_packages/${cp.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -26,7 +26,7 @@ const ChildPackage = () => {
   };
   useEffect(() => {
     setLoader(true);
-    fetch(`https://api.discoverinternationalmedicalservice.com/api/get/sub/packages/${slug}`)
+    fetch(`http://127.0.0.1:8000/api/get/sub/packages/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {

@@ -1,4 +1,4 @@
-import { Button, Input, Textarea } from '@material-tailwind/react'
+﻿import { Button, Input, Textarea } from '@material-tailwind/react'
 import { useState } from 'react'
 
 
@@ -25,7 +25,7 @@ const AddNews = () => {
     formData.append('newsImage', newsImg)
     formData.append('newsTitle', name)
     formData.append('newsDescription', descriptiion)
-    fetch('https://api.discoverinternationalmedicalservice.com/api/add/news', {
+    fetch('http://127.0.0.1:8000/api/add/news', {
       method: 'POST',
       body: formData,
     })

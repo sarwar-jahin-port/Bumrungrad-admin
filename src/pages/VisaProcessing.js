@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import {
   Button,
@@ -25,7 +25,7 @@ const VisaProcessing = () => {
     );
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/visa_processings/${oneVisa.id}`
+        `http://127.0.0.1:8000/api/delete/visa_processings/${oneVisa.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -50,7 +50,7 @@ const VisaProcessing = () => {
   ];
 
   useEffect(() => {
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/visa/precessing")
+    fetch("http://127.0.0.1:8000/api/get/visa/precessing")
       .then((res) => res.json())
       .then((data) => {
         setVisaProcess(data.data);

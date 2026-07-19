@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { BsFileEarmarkArrowDown, BsFillPersonFill } from "react-icons/bs";
 import { Card, Typography } from "@material-tailwind/react";
 import Loader from "../components/Loader";
@@ -20,7 +20,7 @@ const AirPickUp = () => {
     );
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/air_pickups/${pickUp.id}`
+        `http://127.0.0.1:8000/api/delete/air_pickups/${pickUp.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -36,7 +36,7 @@ const AirPickUp = () => {
   };
 
   useEffect(() => {
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/air/pickup")
+    fetch("http://127.0.0.1:8000/api/get/air/pickup")
       .then((res) => res.json())
       .then((data) => {
         setAirPickup(data.data);

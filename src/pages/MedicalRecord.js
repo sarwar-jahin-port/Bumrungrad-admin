@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import Loader from "../components/Loader";
 import {
@@ -25,7 +25,7 @@ const MedicalRecord = () => {
     );
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/medicalreports/${medicileRecordData.id}`
+        `http://127.0.0.1:8000/api/delete/medicalreports/${medicileRecordData.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -48,7 +48,7 @@ const MedicalRecord = () => {
     "Action",
   ];
   useEffect(() => {
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/medical/report")
+    fetch("http://127.0.0.1:8000/api/get/medical/report")
       .then((res) => res.json())
       .then((data) => {
         setMedicalRecord(data.data);

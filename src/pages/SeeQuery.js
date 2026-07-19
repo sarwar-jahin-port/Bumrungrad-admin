@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+﻿import React, { useState, useEffect } from "react";
 import { Card, Typography } from "@material-tailwind/react";
 import Loader from "../components/Loader";
 import {
@@ -27,7 +27,7 @@ const SeeQuery = () => {
     );
     if (aggre) {
       fetch(
-        `https://api.discoverinternationalmedicalservice.com/api/delete/questions/${oneQuery.id}`
+        `http://127.0.0.1:8000/api/delete/questions/${oneQuery.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -51,7 +51,7 @@ const SeeQuery = () => {
     "Action",
   ];
   useEffect(() => {
-    fetch("https://api.discoverinternationalmedicalservice.com/api/get/questions")
+    fetch("http://127.0.0.1:8000/api/get/questions")
       .then((res) => res.json())
       .then((data) => {
         setAllQuery(data.data);

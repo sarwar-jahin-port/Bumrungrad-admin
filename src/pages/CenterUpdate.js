@@ -1,4 +1,4 @@
-import { Button, Input } from "@material-tailwind/react";
+﻿import { Button, Input } from "@material-tailwind/react";
 import React, { useEffect, useState } from "react";
 //import { AiOutlineDelete } from "react-icons/ai";
 import { useNavigate, useParams } from "react-router-dom";
@@ -104,7 +104,7 @@ export default function CenterUpdate() {
   //get center
   useEffect(() => {
     setLoader(true);
-    fetch(`https://api.discoverinternationalmedicalservice.com/api/get/centers/${slug}`)
+    fetch(`http://127.0.0.1:8000/api/get/centers/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         setCenter(data?.response?.data);
@@ -143,7 +143,7 @@ export default function CenterUpdate() {
     // formData.append('conditions', JSON.stringify(conditions))
     // formData.append('treatments', JSON.stringify(treatments))
 
-    fetch(`https://api.discoverinternationalmedicalservice.com/api/update/center/${center.id}`, {
+    fetch(`http://127.0.0.1:8000/api/update/center/${center.id}`, {
       method: "POST",
       body: formData,
     })

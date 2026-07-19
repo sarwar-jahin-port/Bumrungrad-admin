@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import Loader from '../components/Loader'
 import { useParams } from 'react-router-dom'
 
@@ -7,7 +7,7 @@ const OneNews = () => {
   const [loader, setLoader] = useState(true)
   const [oneNews, setNews] = useState({})
   useEffect(() => {
-    fetch(`https://api.discoverinternationalmedicalservice.com/api/get/news/${id}`)
+    fetch(`http://127.0.0.1:8000/api/get/news/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setNews(data.data)

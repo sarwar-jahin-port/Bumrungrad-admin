@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+﻿import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import {
@@ -114,7 +114,7 @@ export default function AddPackages() {
 
   //get parent package
   useEffect(() => {
-    fetch('https://api.discoverinternationalmedicalservice.com/api/get/package')
+    fetch('http://127.0.0.1:8000/api/get/package')
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 404) {
@@ -139,7 +139,7 @@ export default function AddPackages() {
       formData.append('title', title)
       formData.append('description', description)
 
-      fetch('https://api.discoverinternationalmedicalservice.com/api/create/package', {
+      fetch('http://127.0.0.1:8000/api/create/package', {
         method: 'POST',
         body: formData,
       })
@@ -197,7 +197,7 @@ export default function AddPackages() {
       //formData.append('inclusions', JSON.stringify(conditions))
       //formData.append('exclusions', JSON.stringify(treatments))
 
-      fetch('https://api.discoverinternationalmedicalservice.com/api/create/sub/package', {
+      fetch('http://127.0.0.1:8000/api/create/sub/package', {
         method: 'POST',
         body: formData,
       })
