@@ -2,22 +2,20 @@
 
 import { Card, Typography } from "@material-tailwind/react";
 import Loader from "../components/Loader";
-import { AiFillEye } from "react-icons/ai";
 import { Button } from "@material-tailwind/react";
 const AirTicket = () => {
   const [loader, setLoader] = useState(true);
   const [airTicket, setAirTicket] = useState([]);
   const TABLE_HEAD = [
     "Request ID",
-    "From Country",
-    "Destination Country",
-    "Booking Date",
-    "Return Date",
-    "Passport Copy",
+    "Full Name",
+    "WhatsApp",
     "Action",
   ];
   const handaleDeleteAirTicekt = (oneTicket) => {
-    const aggre = window.confirm(`You Want to Delete, ${oneTicket?.country}.`);
+    const aggre = window.confirm(
+      `You Want to Delete, ${oneTicket?.fullName}.`
+    );
     if (aggre) {
       fetch(
         `http://127.0.0.1:8000/api/delete/air_tickets/${oneTicket.id}`
@@ -83,7 +81,7 @@ const AirTicket = () => {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {oneTicket?.country}
+                          {oneTicket?.fullName}
                         </Typography>
                       </td>
                       <td className="p-4">
@@ -92,39 +90,8 @@ const AirTicket = () => {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {oneTicket?.destination}
+                          {oneTicket?.whatsapp}
                         </Typography>
-                      </td>
-
-                      <td className="p-4">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {oneTicket?.booking_date}
-                        </Typography>
-                      </td>
-                      <td className="p-4">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {oneTicket?.return_date}
-                        </Typography>
-                      </td>
-                      <td className="p-4">
-                        <a
-                          href={oneTicket?.doc}
-                          target="blank"
-                          rel="noopener noreferrer"
-                        >
-                          <button className="flex w-fit gap-2 items-center px-2 py-1 shadow rounded bg-blue text-white ">
-                            <AiFillEye className="text-xl" />
-                            Passport
-                          </button>
-                        </a>
                       </td>
                       <td className="p-4">
                         <Button

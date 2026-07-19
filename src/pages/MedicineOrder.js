@@ -40,7 +40,6 @@ const MedicineOrder = () => {
     "Request ID",
     "Name",
     "Phone Number",
-    "Email",
     "Prescriotion Picture",
     "Medicine List",
     "Clear Order",
@@ -105,17 +104,6 @@ const MedicineOrder = () => {
                       </Typography>
                     </td>
                     <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {/* {medicine?.address} */}
-                        User Email
-                      </Typography>
-                    </td>
-
-                    <td className="p-4">
                       {medicine?.prescription !== null ? (
                         <a
                           href={medicine?.prescription}
@@ -132,8 +120,8 @@ const MedicineOrder = () => {
                     </td>
 
                     <td className="p-4">
-                      {medicine.medicines.length === 0 ||
-                      medicine.quantity.length === 0 ? (
+                      {!medicine?.medicines?.length ||
+                      !medicine?.quantity?.length ? (
                         "No List"
                       ) : (
                         <button

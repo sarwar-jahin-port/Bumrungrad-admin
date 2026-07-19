@@ -20,9 +20,7 @@ const VisaProcessing = () => {
     setOneVisa(data);
   };
   const handaleDeleteVissa = (oneVisa) => {
-    const aggre = window.confirm(
-      `You Want to Delete, ${oneVisa?.PataientFirstName}.`
-    );
+    const aggre = window.confirm(`You Want to Delete, ${oneVisa?.fullName}.`);
     if (aggre) {
       fetch(
         `http://127.0.0.1:8000/api/delete/visa_processings/${oneVisa.id}`
@@ -40,14 +38,7 @@ const VisaProcessing = () => {
     }
   };
 
-  const TABLE_HEAD = [
-    "Request ID",
-    "Name",
-    "Visa Invitation Letter",
-    "Email",
-    "Phone",
-    "Action",
-  ];
+  const TABLE_HEAD = ["Request ID", "Full Name", "WhatsApp", "Action"];
 
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/get/visa/precessing")
@@ -97,7 +88,7 @@ const VisaProcessing = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        {`${oneVisaProcess.PataientFirstName} ${oneVisaProcess.PataientLastName}`}
+                        {oneVisaProcess?.fullName}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -106,33 +97,7 @@ const VisaProcessing = () => {
                         color="blue-gray"
                         className="font-normal"
                       >
-                        <a
-                          href={oneVisaProcess?.invitationLetter}
-                          target="blank"
-                          rel="noopener noreferrer"
-                        >
-                          <button className="flex items-center gap-2 px-4 py-2 shadow rounded bg-blue text-white ">
-                            <BsFileEarmarkArrowDown /> Invitation Letter
-                          </button>
-                        </a>
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {oneVisaProcess.PataientEmail}
-                      </Typography>
-                    </td>
-                    <td className="p-4">
-                      <Typography
-                        variant="small"
-                        color="blue-gray"
-                        className="font-normal"
-                      >
-                        {oneVisaProcess.PataientPhone}
+                        {oneVisaProcess?.whatsapp}
                       </Typography>
                     </td>
 
@@ -166,32 +131,39 @@ const VisaProcessing = () => {
                 <hr />
                 <h1 className="mt-2.5">
                   <span className="font-semibold">Name : </span>
-                  {`${oneVisa?.PataientFirstName} ${oneVisa?.PataientLastName}`}
+                  {oneVisa?.fullName}
                 </h1>
                 <p className="mt-2.5">
-                  <span className=" font-semibold"> Birth Date : </span>{" "}
-                  {oneVisa?.PataientDob}
-                </p>{" "}
-                <p className="mt-2.5">
-                  <span className=" font-semibold "> Patient Gender : </span>{" "}
-                  {oneVisa?.PataientGender}
-                </p>{" "}
-                <p className="mt-2.5">
-                  <span className="font-semibold"> Nationality : </span>{" "}
-                  {oneVisa?.PataientCitizenship}
+                  <span className="font-semibold"> WhatsApp : </span>{" "}
+                  {oneVisa?.whatsapp}
                 </p>
-                <p className="mt-2.5">
-                  <span className="font-semibold"> Contact Details : </span>{" "}
-                  {oneVisa?.PataientPhone}
-                </p>
-                <p className="mt-2.5">
-                  <span className="font-semibold"> Residence : </span>{" "}
-                  {oneVisa?.country}
-                </p>
-                <p className="mt-2.5">
-                  <span className="font-semibold"> Old Patient : </span>{" "}
-                  {oneVisa?.oldPataint}
-                </p>
+                {/* Legacy fields from the pre-redesign form (doc §2.2 trimmed
+                    these out). Shown only when present, so any older/imported
+                    requests still display correctly. */}
+                {oneVisa?.PataientDob && (
+                  <p className="mt-2.5">
+                    <span className=" font-semibold"> Birth Date : </span>{" "}
+                    {oneVisa?.PataientDob}
+                  </p>
+                )}
+                {oneVisa?.PataientGender && (
+                  <p className="mt-2.5">
+                    <span className=" font-semibold "> Patient Gender : </span>{" "}
+                    {oneVisa?.PataientGender}
+                  </p>
+                )}
+                {oneVisa?.PataientCitizenship && (
+                  <p className="mt-2.5">
+                    <span className="font-semibold"> Nationality : </span>{" "}
+                    {oneVisa?.PataientCitizenship}
+                  </p>
+                )}
+                {oneVisa?.country && (
+                  <p className="mt-2.5">
+                    <span className="font-semibold"> Residence : </span>{" "}
+                    {oneVisa?.country}
+                  </p>
+                )}
                 {oneVisa?.HnNumber && (
                   <p className="mt-2.5">
                     <span className="font-semibold"> HN Number : </span>{" "}

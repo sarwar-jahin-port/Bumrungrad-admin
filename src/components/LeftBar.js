@@ -331,6 +331,15 @@ export function LeftBar() {
             Tele Medicine
           </ListItem>
         </Link>
+        <Link to="/home/admissions">
+          {" "}
+          <ListItem>
+            <ListItemPrefix>
+              <FaHandHoldingMedical className="h-5 w-5" />
+            </ListItemPrefix>
+            Direct Admission
+          </ListItem>
+        </Link>
         <Link to="/home/visa_processing">
           <ListItem>
             <ListItemPrefix>

@@ -46,9 +46,9 @@ const TeleMedicine = () => {
   const TABLE_HEAD = [
     "Request ID",
     "Patient Name",
-    "Passport Number",
+    "Patient Type",
     "Doctor Name",
-    "Appointment Date",
+    "Time Slot",
     "Action",
   ];
   useEffect(() => {
@@ -106,9 +106,9 @@ const TeleMedicine = () => {
                         <Typography
                           variant="small"
                           color="blue-gray"
-                          className="font-normal"
+                          className="font-normal capitalize"
                         >
-                          {oneTelemedicine?.passportId}
+                          {oneTelemedicine?.patientType}
                         </Typography>
                       </td>
                       <td className="p-4">
@@ -126,7 +126,7 @@ const TeleMedicine = () => {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {oneTelemedicine?.preferredDate}
+                          {oneTelemedicine?.timeSlot}
                         </Typography>
                       </td>
 
@@ -163,75 +163,107 @@ const TeleMedicine = () => {
                     {teleMedicineModalData?.fullName}
                   </h1>
                   <p className="mt-2.5">
+                    <span className="font-semibold"> Patient Type : </span>{" "}
+                    <span className="capitalize">
+                      {teleMedicineModalData?.patientType}
+                    </span>
+                  </p>
+                  <p className="mt-2.5">
                     <span className=" font-semibold "> Birth Date : </span>{" "}
                     {teleMedicineModalData?.birthDate}
                   </p>{" "}
                   <p className="mt-2.5">
-                    <span className=" font-semibold "> Passport Id : </span>{" "}
-                    {teleMedicineModalData?.passportId}
-                  </p>{" "}
-                  <p className="mt-2.5">
-                    <span className="font-semibold"> Nationality : </span>{" "}
-                    {teleMedicineModalData?.nationality}
-                  </p>
-                  <p className="mt-2.5">
                     <span className="font-semibold"> Contact Details : </span>{" "}
                     {teleMedicineModalData?.contactDetails}
                   </p>
-                  <p className="mt-2.5">
-                    <span className="font-semibold"> Residence : </span>{" "}
-                    {teleMedicineModalData?.residence}
-                  </p>
-                  <p className="mt-2.5">
-                    <span className="font-semibold"> Interpreter : </span>{" "}
-                    {teleMedicineModalData?.interpreter}
-                  </p>
+                  {/* Legacy fields from the pre-redesign form (doc §2.1 trimmed
+                      these out). Kept in the schema and shown here only when
+                      present, so any older/imported requests still display
+                      correctly without cluttering new ones. */}
+                  {teleMedicineModalData?.passportId && (
+                    <p className="mt-2.5">
+                      <span className=" font-semibold "> Passport Id : </span>{" "}
+                      {teleMedicineModalData?.passportId}
+                    </p>
+                  )}
+                  {teleMedicineModalData?.nationality && (
+                    <p className="mt-2.5">
+                      <span className="font-semibold"> Nationality : </span>{" "}
+                      {teleMedicineModalData?.nationality}
+                    </p>
+                  )}
+                  {teleMedicineModalData?.residence && (
+                    <p className="mt-2.5">
+                      <span className="font-semibold"> Residence : </span>{" "}
+                      {teleMedicineModalData?.residence}
+                    </p>
+                  )}
+                  {teleMedicineModalData?.interpreter && (
+                    <p className="mt-2.5">
+                      <span className="font-semibold"> Interpreter : </span>{" "}
+                      {teleMedicineModalData?.interpreter}
+                    </p>
+                  )}
                 </div>
                 <div className="ml-3">
                   <h1 className="text-xl mb-2.5 font-semibold text-blue">
-                    Other Iformatin
+                    Other Information
                   </h1>{" "}
                   <hr />
-                  <p className="mt-2.5">
-                    <span className="font-semibold">HN Number : </span>
-                    {teleMedicineModalData?.hnNum}
-                  </p>
                   <p className="mt-2.5">
                     <span className="font-semibold"> Preferred Doctor :</span>{" "}
                     {teleMedicineModalData?.preferredDoctor}
                   </p>
                   <p className="mt-2.5">
-                    <span className="font-semibold"> Preferred Date : </span>{" "}
-                    {teleMedicineModalData?.preferredDate}
-                  </p>
-                  <p className="mt-2.5">
-                    <span className="font-semibold">
-                      Purpose Appointment :{" "}
-                    </span>
-                    {teleMedicineModalData?.purposeAppointment}
-                  </p>
-                  <p className="mt-2.5">
-                    <span className="font-semibold"> PaymentType : </span>{" "}
-                    {teleMedicineModalData?.paymentType}
+                    <span className="font-semibold"> Time Slot : </span>{" "}
+                    {teleMedicineModalData?.timeSlot}
                   </p>
                   <p className="mt-2.5">
                     <span className="font-semibold"> Specific Concern : </span>{" "}
                     {teleMedicineModalData?.specificConcern}
                   </p>
+                  {teleMedicineModalData?.hnNum && (
+                    <p className="mt-2.5">
+                      <span className="font-semibold">HN Number : </span>
+                      {teleMedicineModalData?.hnNum}
+                    </p>
+                  )}
+                  {teleMedicineModalData?.preferredDate && (
+                    <p className="mt-2.5">
+                      <span className="font-semibold"> Preferred Date : </span>{" "}
+                      {teleMedicineModalData?.preferredDate}
+                    </p>
+                  )}
+                  {teleMedicineModalData?.purposeAppointment && (
+                    <p className="mt-2.5">
+                      <span className="font-semibold">
+                        Purpose Appointment :{" "}
+                      </span>
+                      {teleMedicineModalData?.purposeAppointment}
+                    </p>
+                  )}
+                  {teleMedicineModalData?.paymentType && (
+                    <p className="mt-2.5">
+                      <span className="font-semibold"> PaymentType : </span>{" "}
+                      {teleMedicineModalData?.paymentType}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
           </DialogBody>
           <DialogFooter className="flex justify-between">
             <div className="">
-              <a
-                className="flex w-fit gap-2 items-center px-2 py-1 shadow rounded bg-blue text-white font-light text-lg"
-                href={teleMedicineModalData?.investigationDocument}
-                target="blank"
-              >
-                <BsFileEarmarkArrowDown className="text-xl" /> Investigation
-                Document
-              </a>
+              {teleMedicineModalData?.investigationDocument && (
+                <a
+                  className="flex w-fit gap-2 items-center px-2 py-1 shadow rounded bg-blue text-white font-light text-lg"
+                  href={teleMedicineModalData?.investigationDocument}
+                  target="blank"
+                >
+                  <BsFileEarmarkArrowDown className="text-xl" /> Investigation
+                  Document
+                </a>
+              )}
             </div>
             <div>
               <Button

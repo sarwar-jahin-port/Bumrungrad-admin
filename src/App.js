@@ -32,6 +32,7 @@ import NewsList from "./pages/NewsList";
 import Blogslist from "./pages/Blogslist";
 import PrivateAuth from "./auth/PrivateAuth";
 import UpdateDoctor from "./pages/UpdateDoctor";
+import Admission from "./pages/Admission";
 
 const router = createBrowserRouter([
   {
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
       {
         path: "/home/tele_medicine",
         element: <TeleMedicine />,
+      },
+      {
+        path: "/home/admissions",
+        element: <Admission />,
       },
       {
         path: "/home/air_ticket",
