@@ -21,7 +21,7 @@ import {
 } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { BiSolidAmbulance, BiSolidUserDetail, BiSolidPhoneCall } from "react-icons/bi";
-import { FaPassport } from "react-icons/fa";
+import { FaPassport, FaMapMarkerAlt } from "react-icons/fa";
 import { AiOutlineOrderedList, AiFillProfile } from "react-icons/ai";
 import { FaHandHoldingMedical } from "react-icons/fa";
 import { TbRibbonHealth } from "react-icons/tb";
@@ -312,6 +312,14 @@ export function LeftBar() {
               <BiSolidAmbulance className="h-5 w-5" />
             </ListItemPrefix>
             Air Ambulance
+          </ListItem>
+        </Link>
+        <Link to="/home/air_ambulance_hubs">
+          <ListItem>
+            <ListItemPrefix>
+              <FaMapMarkerAlt className="h-5 w-5" />
+            </ListItemPrefix>
+            Air Ambulance Hubs
           </ListItem>
         </Link>
         <Link to="/home/medicine_order">

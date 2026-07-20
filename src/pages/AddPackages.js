@@ -1,4 +1,4 @@
-﻿import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import {
@@ -13,18 +13,29 @@ import {
   Option,
   Button,
   Spinner,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
 } from '@material-tailwind/react'
 import { toast } from 'react-toastify'
-// import { AiOutlineDelete } from 'react-icons/ai'
+import { AiOutlineDelete } from 'react-icons/ai'
+
+const slugify = (value) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
 
 export default function AddPackages() {
   //dialogue
-  // const [open, setOpen] = React.useState(false)
-  //const handleOpen = () => setOpen(!open)
-  // const [open2, setOpen2] = React.useState(false)
-  //const handleOpen2 = () => setOpen2(!open2)
-  // const [open3, setOpen3] = React.useState(false)
-  //const handleOpen3 = () => setOpen3(!open3)
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(!open)
+  const [open2, setOpen2] = React.useState(false)
+  const handleOpen2 = () => setOpen2(!open2)
+  const [open3, setOpen3] = React.useState(false)
+  const handleOpen3 = () => setOpen3(!open3)
 
   const [loader, setLoader] = useState(false)
   const [childLoader, setChildLoader] = useState(false)
@@ -37,48 +48,45 @@ export default function AddPackages() {
     useState('No file chosen')
   const [selectedChildImage, setSelectedChildImage] = useState('No file chosen')
 
-  //const [information, setInformation] = useState('')
-  const [informations, setInformations] = useState([])
+  const [parentSlug, setParentSlug] = useState('')
+  const [parentSlugEdited, setParentSlugEdited] = useState(false)
 
-  //const [condition, setCondition] = useState('')
-  const [conditions, setConditions] = useState([])
+  const [childSlug, setChildSlug] = useState('')
+  const [childSlugEdited, setChildSlugEdited] = useState(false)
 
-  //const [treatment, setTreatment] = useState('')
-  const [treatments, setTreatments] = useState([])
+  // Terms & Conditions -> DB `conditions` column
+  const [term, setTerm] = useState('')
+  const [terms, setTerms] = useState([])
 
-  // informations add remove functions
-  // const addInformations = () => {
-  //   const newInformations = [...informations, { information }]
-  //   setInformations(newInformations)
-  //   setInformation('')
-  // }
-  // const removeInformation = (index) => {
-  //   const updatedInformations = [...informations]
-  //   updatedInformations.splice(index, 1)
-  //   setInformations(updatedInformations)
-  // }
-  // // conditions add remove functions
-  // const addConditions = () => {
-  //   const newConditions = [...conditions, { condition }]
-  //   setConditions(newConditions)
-  //   setCondition('')
-  // }
-  // const removeCondition = (index) => {
-  //   const updatedConditions = [...conditions]
-  //   updatedConditions.splice(index, 1)
-  //   setConditions(updatedConditions)
-  // }
-  // // conditions add remove functions
-  // const addTreatments = () => {
-  //   const newTreatments = [...treatments, { treatment }]
-  //   setTreatments(newTreatments)
-  //   setTreatment('')
-  // }
-  // const removeTreatment = (index) => {
-  //   const updatedTreatments = [...treatments]
-  //   updatedTreatments.splice(index, 1)
-  //   setTreatments(updatedTreatments)
-  // }
+  // Package Inclusions -> DB `inclusions` column
+  const [inclusion, setInclusion] = useState('')
+  const [inclusions, setInclusions] = useState([])
+
+  // Package Exclusions -> DB `exclusions` column
+  const [exclusion, setExclusion] = useState('')
+  const [exclusions, setExclusions] = useState([])
+
+  const addTerm = () => {
+    setTerms([...terms, { condition: term }])
+    setTerm('')
+  }
+  const removeTerm = (index) => {
+    setTerms(terms.filter((_, i) => i !== index))
+  }
+  const addInclusion = () => {
+    setInclusions([...inclusions, { inclusion }])
+    setInclusion('')
+  }
+  const removeInclusion = (index) => {
+    setInclusions(inclusions.filter((_, i) => i !== index))
+  }
+  const addExclusion = () => {
+    setExclusions([...exclusions, { exclusion }])
+    setExclusion('')
+  }
+  const removeExclusion = (index) => {
+    setExclusions(exclusions.filter((_, i) => i !== index))
+  }
 
   //react quil
   const [editorValue, seteditorValue] = useState('')
@@ -137,6 +145,7 @@ export default function AddPackages() {
       const formData = new FormData()
       formData.append('cover_photo', selectedParentImage)
       formData.append('title', title)
+      formData.append('slug', parentSlug)
       formData.append('description', description)
 
       fetch('http://127.0.0.1:8000/api/create/package', {
@@ -148,6 +157,8 @@ export default function AddPackages() {
           setLoader(false)
           e.target.reset()
           setSelectedParentImage('No file chosen')
+          setParentSlug('')
+          setParentSlugEdited(false)
           toast.success('Package Added Successfully!')
         })
         .catch((e) => console.error(e))
@@ -159,23 +170,10 @@ export default function AddPackages() {
     e.preventDefault()
     const title = e.target.title.value
     const price = e.target.price.value
-    //const description = e.target.description.value
     const location = e.target.location.value
     const shift1 = e.target.shift1.value
     const shift2 = e.target.shift2.value
-    const postData = {
-      selectedChildImage,
-      title,
-      price,
-      //description,
-      location,
-      shift1,
-      shift2,
-      informations,
-      conditions,
-      treatments,
-      editorValue,
-    }
+
     if (selectedChildImage === 'No file chosen') {
       setChildLoader(false)
       toast.error('Select Child Package Image')
@@ -186,16 +184,16 @@ export default function AddPackages() {
       const formData = new FormData()
       formData.append('cover_photo', selectedChildImage)
       formData.append('title', title)
+      formData.append('slug', childSlug)
       formData.append('price', price)
-      // formData.append('description', description)
       formData.append('parent_id', parentId)
       formData.append('location', location)
       formData.append('shift1', shift1)
       formData.append('shift2', shift2)
       formData.append('content', editorValue)
-      //formData.append('conditions', JSON.stringify(informations))
-      //formData.append('inclusions', JSON.stringify(conditions))
-      //formData.append('exclusions', JSON.stringify(treatments))
+      formData.append('conditions', JSON.stringify(terms))
+      formData.append('inclusions', JSON.stringify(inclusions))
+      formData.append('exclusions', JSON.stringify(exclusions))
 
       fetch('http://127.0.0.1:8000/api/create/sub/package', {
         method: 'POST',
@@ -206,9 +204,12 @@ export default function AddPackages() {
           e.target.reset()
           toast.success('Child Package Added Successfully!')
           setChildLoader(false)
-          setInformations([])
-          setConditions([])
-          setTreatments([])
+          setTerms([])
+          setInclusions([])
+          setExclusions([])
+          setChildSlug('')
+          setChildSlugEdited(false)
+          seteditorValue('')
           setSelectedChildImage('No file chosen')
         })
         .catch((e) => console.error(e))
@@ -271,7 +272,28 @@ export default function AddPackages() {
                 <p className='text-red-400 text-sm'>
                   Image Ratio - 1200*628. Image size not more than 500kb
                 </p>
-                <Input label='Enter Title' name='title' required />
+                <Input
+                  label='Enter Title'
+                  name='title'
+                  required
+                  onChange={(e) => {
+                    if (!parentSlugEdited) setParentSlug(slugify(e.target.value))
+                  }}
+                />
+                <div>
+                  <Input
+                    label='Enter Slug'
+                    name='slug'
+                    value={parentSlug}
+                    onChange={(e) => {
+                      setParentSlugEdited(true)
+                      setParentSlug(slugify(e.target.value))
+                    }}
+                  />
+                  <p className='text-xs text-slate-500 mt-1'>
+                    Auto-generated from the title. Used in the page URL — edit only if needed.
+                  </p>
+                </div>
                 <Textarea
                   label='Enter Description'
                   name='description'
@@ -334,27 +356,48 @@ export default function AddPackages() {
                       </p>
                     )}
                   </div>
-                  <Input label='Enter Title' name='title' required />
-                  <Input label='Enter Price' name='price' required />
+                  <Input
+                    label='Enter Title'
+                    name='title'
+                    required
+                    onChange={(e) => {
+                      if (!childSlugEdited) setChildSlug(slugify(e.target.value))
+                    }}
+                  />
+                  <div>
+                    <Input
+                      label='Enter Slug'
+                      name='slug'
+                      value={childSlug}
+                      onChange={(e) => {
+                        setChildSlugEdited(true)
+                        setChildSlug(slugify(e.target.value))
+                      }}
+                    />
+                    <p className='text-xs text-slate-500 mt-1'>
+                      Used in the page URL — edit only if needed.
+                    </p>
+                  </div>
+                  <Input label='Enter Price' name='price' type='number' required />
                   <Input label='Enter Location' name='location' />
                   <Input label='Enter First Shift' name='shift1' />
                   <Input label='Enter Second Shift' name='shift2' />
                 </div>
                 <div className='grid gap-4 md:grid-cols-2'>
-                  {/* multiple Conditions */}
-                  {/* <div className='flex items-center gap-5'>
+                  {/* Terms & Conditions -> conditions */}
+                  <div className='flex items-center gap-5'>
                     <div className='relative flex w-full'>
                       <Input
-                        value={information}
+                        value={term}
                         type='text'
                         label='Terms & Conditions'
-                        onChange={(e) => setInformation(e.target.value)}
+                        onChange={(e) => setTerm(e.target.value)}
                       />
                       <Button
                         size='sm'
-                        onClick={addInformations}
+                        onClick={addTerm}
                         className='!absolute right-1 top-1 rounded bg-blue'
-                        disabled={information === ''}
+                        disabled={term === ''}
                       >
                         Add
                       </Button>
@@ -367,19 +410,19 @@ export default function AddPackages() {
                       >
                         View
                       </Button>
-                      {informations.length > 0 && (
+                      {terms.length > 0 && (
                         <div className='h-3 w-3 rounded-full bg-green-400 absolute -top-1 -right-1 shadow-xl'></div>
                       )}
                       <Dialog open={open} handler={handleOpen}>
-                        <DialogHeader>Informations</DialogHeader>
+                        <DialogHeader>Terms &amp; Conditions</DialogHeader>
                         <DialogBody divider>
-                          {informations.length > 0 ? (
+                          {terms.length > 0 ? (
                             <div className='flex flex-col gap-4'>
-                              {informations.map((c, i) => (
+                              {terms.map((c, i) => (
                                 <div key={i} className='flex justify-between'>
-                                  <p className='text-xl'>{c.information}</p>
+                                  <p className='text-xl'>{c.condition}</p>
                                   <AiOutlineDelete
-                                    onClick={() => removeInformation(i)}
+                                    onClick={() => removeTerm(i)}
                                     className='text-red-500 text-3xl cursor-pointer'
                                   />
                                 </div>
@@ -404,21 +447,21 @@ export default function AddPackages() {
                         </DialogFooter>
                       </Dialog>
                     </div>
-                  </div> */}
-                  {/* multiple Inclusions */}
-                  {/* <div className='flex items-center gap-5'>
+                  </div>
+                  {/* Package Inclusions -> inclusions */}
+                  <div className='flex items-center gap-5'>
                     <div className='relative flex w-full'>
                       <Input
-                        value={condition}
+                        value={inclusion}
                         type='text'
                         label='Package Inclusions'
-                        onChange={(e) => setCondition(e.target.value)}
+                        onChange={(e) => setInclusion(e.target.value)}
                       />
                       <Button
                         size='sm'
-                        onClick={addConditions}
+                        onClick={addInclusion}
                         className='!absolute right-1 top-1 rounded bg-blue'
-                        disabled={condition === ''}
+                        disabled={inclusion === ''}
                       >
                         Add
                       </Button>
@@ -431,19 +474,19 @@ export default function AddPackages() {
                       >
                         View
                       </Button>
-                      {conditions.length > 0 && (
+                      {inclusions.length > 0 && (
                         <div className='h-3 w-3 rounded-full bg-green-400 absolute -top-1 -right-1 shadow-xl'></div>
                       )}
                       <Dialog open={open2} handler={handleOpen2}>
-                        <DialogHeader>Conditions</DialogHeader>
+                        <DialogHeader>Package Inclusions</DialogHeader>
                         <DialogBody divider>
-                          {conditions.length > 0 ? (
+                          {inclusions.length > 0 ? (
                             <div className='flex flex-col gap-4'>
-                              {conditions.map((c, i) => (
+                              {inclusions.map((c, i) => (
                                 <div key={i} className='flex justify-between'>
-                                  <p className='text-xl'>{c.condition}</p>
+                                  <p className='text-xl'>{c.inclusion}</p>
                                   <AiOutlineDelete
-                                    onClick={() => removeCondition(i)}
+                                    onClick={() => removeInclusion(i)}
                                     className='text-red-500 text-3xl cursor-pointer'
                                   />
                                 </div>
@@ -468,21 +511,21 @@ export default function AddPackages() {
                         </DialogFooter>
                       </Dialog>
                     </div>
-                  </div> */}
-                  {/* multiple Exclusions */}
-                  {/* <div className='flex items-center gap-5'>
+                  </div>
+                  {/* Package Exclusions -> exclusions */}
+                  <div className='flex items-center gap-5'>
                     <div className='relative flex w-full'>
                       <Input
-                        value={treatment}
+                        value={exclusion}
                         type='text'
                         label='Package Exclusions'
-                        onChange={(e) => setTreatment(e.target.value)}
+                        onChange={(e) => setExclusion(e.target.value)}
                       />
                       <Button
                         size='sm'
-                        onClick={addTreatments}
+                        onClick={addExclusion}
                         className='!absolute right-1 top-1 rounded bg-blue'
-                        disabled={treatment === ''}
+                        disabled={exclusion === ''}
                       >
                         Add
                       </Button>
@@ -495,19 +538,19 @@ export default function AddPackages() {
                       >
                         View
                       </Button>
-                      {treatments.length > 0 && (
+                      {exclusions.length > 0 && (
                         <div className='h-3 w-3 rounded-full bg-green-400 absolute -top-1 -right-1 shadow-xl'></div>
                       )}
                       <Dialog open={open3} handler={handleOpen3}>
-                        <DialogHeader>Treatments</DialogHeader>
+                        <DialogHeader>Package Exclusions</DialogHeader>
                         <DialogBody divider>
-                          {treatments.length > 0 ? (
+                          {exclusions.length > 0 ? (
                             <div className='flex flex-col gap-4'>
-                              {treatments.map((c, i) => (
+                              {exclusions.map((c, i) => (
                                 <div key={i} className='flex justify-between'>
-                                  <p className='text-xl'>{c.treatment}</p>
+                                  <p className='text-xl'>{c.exclusion}</p>
                                   <AiOutlineDelete
-                                    onClick={() => removeTreatment(i)}
+                                    onClick={() => removeExclusion(i)}
                                     className='text-red-500 text-3xl cursor-pointer'
                                   />
                                 </div>
@@ -532,7 +575,7 @@ export default function AddPackages() {
                         </DialogFooter>
                       </Dialog>
                     </div>
-                  </div> */}
+                  </div>
                 </div>
                 <div className=''>
                   <label htmlFor='' className='text-red'>

@@ -1,5 +1,5 @@
-﻿import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
@@ -10,69 +10,75 @@ import {
   Option,
   Select,
   Spinner,
-  Textarea,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
 } from "@material-tailwind/react";
-//import { AiOutlineDelete } from "react-icons/ai";
+import { AiOutlineDelete } from "react-icons/ai";
+
+const slugify = (value) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
 
 const ChildPackageDetails = () => {
   const [loader, setLoader] = useState(false);
   const [childLoader, setChildLoader] = useState(false);
   const { slug } = useParams();
+  const navigate = useNavigate();
   const [childDetailsPackage, setChildDetailsPackage] = useState({});
 
   //dialogue
-  //const [open, setOpen] = React.useState(false);
-  //const handleOpen = () => setOpen(!open);
-  //const [open2, setOpen2] = React.useState(false);
-  // const handleOpen2 = () => setOpen2(!open2);
-  //const [open3, setOpen3] = React.useState(false);
-  //const handleOpen3 = () => setOpen3(!open3);
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(!open);
+  const [open2, setOpen2] = React.useState(false);
+  const handleOpen2 = () => setOpen2(!open2);
+  const [open3, setOpen3] = React.useState(false);
+  const handleOpen3 = () => setOpen3(!open3);
 
   const [parentPckages, setParentPackages] = useState([]);
   const [parentId, setParentId] = useState("");
   const [selectedChildImage, setSelectedChildImage] = useState("");
-  // const [information, setInformation] = useState("");
-  //const [informations, setInformations] = useState([])
 
-  // const [condition, setCondition] = useState("");
-  //const [conditions, setConditions] = useState([])
+  const [childSlug, setChildSlug] = useState("");
+  const [childSlugEdited, setChildSlugEdited] = useState(false);
 
-  // const [treatment, setTreatment] = useState("");
-  //const [treatments, setTreatments] = useState([])
+  // Terms & Conditions -> DB `conditions` column
+  const [term, setTerm] = useState("");
+  const [terms, setTerms] = useState([]);
 
-  // informations add remove functions
-  // const addInformations = () => {
-  //   const newInformations = [...informations, { information }];
-  //   setInformations(newInformations);
-  //   setInformation("");
-  // };
-  // const removeInformation = (index) => {
-  //   const updatedInformations = [...informations];
-  //   updatedInformations.splice(index, 1);
-  //   setInformations(updatedInformations);
-  // };
-  // conditions add remove functions
-  // const addConditions = () => {
-  //   const newConditions = [...conditions, { condition }];
-  //   setConditions(newConditions);
-  //   setCondition("");
-  // };
-  // const removeCondition = (index) => {
-  //   const updatedConditions = [...conditions];
-  //   updatedConditions.splice(index, 1);
-  //   setConditions(updatedConditions);
-  // };
-  // conditions add remove functions
-  // const addTreatments = () => {
-  //   const newTreatments = [...treatments, { treatment }];
-  //   setTreatments(newTreatments);
-  //   setTreatment("");
-  // };
-  // const removeTreatment = (index) => {
-  //   const updatedTreatments = [...treatments];
-  //   updatedTreatments.splice(index, 1);
-  //   setTreatments(updatedTreatments);
-  // };
+  // Package Inclusions -> DB `inclusions` column
+  const [inclusion, setInclusion] = useState("");
+  const [inclusions, setInclusions] = useState([]);
+
+  // Package Exclusions -> DB `exclusions` column
+  const [exclusion, setExclusion] = useState("");
+  const [exclusions, setExclusions] = useState([]);
+
+  const addTerm = () => {
+    setTerms([...terms, { condition: term }]);
+    setTerm("");
+  };
+  const removeTerm = (index) => {
+    setTerms(terms.filter((_, i) => i !== index));
+  };
+  const addInclusion = () => {
+    setInclusions([...inclusions, { inclusion }]);
+    setInclusion("");
+  };
+  const removeInclusion = (index) => {
+    setInclusions(inclusions.filter((_, i) => i !== index));
+  };
+  const addExclusion = () => {
+    setExclusions([...exclusions, { exclusion }]);
+    setExclusion("");
+  };
+  const removeExclusion = (index) => {
+    setExclusions(exclusions.filter((_, i) => i !== index));
+  };
 
   //react quil
   const [editorValue, seteditorValue] = useState("");
@@ -125,55 +131,44 @@ const ChildPackageDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
-          setChildDetailsPackage(data?.data);
-          setParentId(data?.data?.parent_id);
-          // setSelectedChildImage(data?.data?.cover_photo);
-          seteditorValue(data?.data?.content);
-          //setInformations(data?.data?.conditions)
-          //setConditions(data?.data?.inclusions)
-          //setTreatments(data?.data?.exclusions)
-          setLoader(false);
+          const found = data?.data;
+          setChildDetailsPackage(found);
+          setParentId(found?.parent_id ? String(found.parent_id) : "");
+          setChildSlug(found?.slug || "");
+          seteditorValue(found?.content || "");
+          setTerms(found?.conditions || []);
+          setInclusions(found?.inclusions || []);
+          setExclusions(found?.exclusions || []);
         }
         setLoader(false);
       });
   }, [slug]);
 
-  // add child packages
+  // update child package
   const handleUpdateChildPackages = (e) => {
     setChildLoader(true);
     e.preventDefault();
     const title = e.target.title.value;
     const price = e.target.price.value;
-    //const description = e.target.description.value
     const location = e.target.location.value;
     const shift1 = e.target.shift1.value;
     const shift2 = e.target.shift2.value;
-    const postData = {
-      selectedChildImage,
-      title,
-      price,
-      //description,
-      location,
-      shift1,
-      shift2,
-      editorValue,
-      //informations,
-      //conditions,
-      //treatments,
-    };
+
     const formData = new FormData();
-    formData.append("cover_photo", selectedChildImage);
+    if (selectedChildImage) {
+      formData.append("cover_photo", selectedChildImage);
+    }
     formData.append("title", title);
+    formData.append("slug", childSlug);
     formData.append("price", price);
-    //formData.append('description', description)
     formData.append("parent_id", parentId);
     formData.append("location", location);
     formData.append("shift1", shift1);
     formData.append("shift2", shift2);
     formData.append("content", editorValue);
-    // formData.append("conditions", JSON.stringify(informations));
-    // formData.append("inclusions", JSON.stringify(conditions));
-    // formData.append("exclusions", JSON.stringify(treatments));
+    formData.append("conditions", JSON.stringify(terms));
+    formData.append("inclusions", JSON.stringify(inclusions));
+    formData.append("exclusions", JSON.stringify(exclusions));
 
     fetch(
       `http://127.0.0.1:8000/api/update/sub/package/${childDetailsPackage?.id}`,
@@ -185,10 +180,9 @@ const ChildPackageDetails = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data?.status === 200) {
-          e.target.reset();
           toast.success("Child Package Updated Successfully!");
-          // window.location.reload()
           setChildLoader(false);
+          navigate("/home/get-packages");
         } else {
           toast.error(data?.msg);
           setChildLoader(false);
@@ -228,7 +222,7 @@ const ChildPackageDetails = () => {
             <label className="text-sm text-slate-500">
               {selectedChildImage?.name
                 ? selectedChildImage?.name
-                : selectedChildImage}
+                : "No File Chosen"}
             </label>
           </div>
           <p className="text-red-400 text-sm">
@@ -240,6 +234,7 @@ const ChildPackageDetails = () => {
               <Select
                 label="Select Parent Package"
                 required
+                value={parentId}
                 onChange={(value) => setParentId(value)}
               >
                 {parentPckages?.map((pp) => (
@@ -260,9 +255,24 @@ const ChildPackageDetails = () => {
               required
               defaultValue={childDetailsPackage?.title}
             />
+            <div>
+              <Input
+                label="Enter Slug"
+                name="slug"
+                value={childSlug}
+                onChange={(e) => {
+                  setChildSlugEdited(true);
+                  setChildSlug(slugify(e.target.value));
+                }}
+              />
+              <p className="text-xs text-slate-500 mt-1">
+                Used in the page URL — edit only if needed.
+              </p>
+            </div>
             <Input
               label="Enter Price"
               name="price"
+              type="number"
               required
               defaultValue={childDetailsPackage?.price}
             />
@@ -279,24 +289,24 @@ const ChildPackageDetails = () => {
             <Input
               label="Enter Second Shift"
               name="shift2"
-              defaultValue={childDetailsPackage?.shift1}
+              defaultValue={childDetailsPackage?.shift2}
             />
           </div>
           <div className="grid gap-4 md:grid-cols-2">
-            {/* multiple Conditions */}
-            {/* <div className="flex items-center gap-5">
+            {/* Terms & Conditions -> conditions */}
+            <div className="flex items-center gap-5">
               <div className="relative flex w-full">
                 <Input
-                  value={information}
+                  value={term}
                   type="text"
                   label="Terms & Conditions"
-                  onChange={(e) => setInformation(e.target.value)}
+                  onChange={(e) => setTerm(e.target.value)}
                 />
                 <Button
                   size="sm"
-                  onClick={addInformations}
+                  onClick={addTerm}
                   className="!absolute right-1 top-1 rounded bg-blue"
-                  disabled={information === ""}
+                  disabled={term === ""}
                 >
                   Add
                 </Button>
@@ -309,20 +319,22 @@ const ChildPackageDetails = () => {
                 >
                   View
                 </Button>
-                {informations.length > 0 && (
+                {terms.length > 0 && (
                   <div className="h-3 w-3 rounded-full bg-green-400 absolute -top-1 -right-1 shadow-xl"></div>
                 )}
                 <Dialog open={open} handler={handleOpen}>
-                  <DialogHeader>Informations</DialogHeader>
+                  <DialogHeader>Terms &amp; Conditions</DialogHeader>
                   <DialogBody divider>
-                    {informations.length > 0 ? (
+                    {terms.length > 0 ? (
                       <div className="flex flex-col gap-4">
-                        {informations.map((c, i) => (
+                        {terms.map((c, i) => (
                           <div key={i} className="flex justify-between">
-                            <p className="text-xl w-5/6">{i+1}. {c.information}</p>
+                            <p className="text-xl w-5/6">
+                              {i + 1}. {c.condition}
+                            </p>
                             <div className="w-1/6 flex justify-center">
                               <AiOutlineDelete
-                                onClick={() => removeInformation(i)}
+                                onClick={() => removeTerm(i)}
                                 className="text-red-500 text-3xl cursor-pointer"
                               />
                             </div>
@@ -348,21 +360,21 @@ const ChildPackageDetails = () => {
                   </DialogFooter>
                 </Dialog>
               </div>
-            </div> */}
-            {/* multiple Inclusions */}
-            {/* <div className="flex items-center gap-5">
+            </div>
+            {/* Package Inclusions -> inclusions */}
+            <div className="flex items-center gap-5">
               <div className="relative flex w-full">
                 <Input
-                  value={condition}
+                  value={inclusion}
                   type="text"
                   label="Package Inclusions"
-                  onChange={(e) => setCondition(e.target.value)}
+                  onChange={(e) => setInclusion(e.target.value)}
                 />
                 <Button
                   size="sm"
-                  onClick={addConditions}
+                  onClick={addInclusion}
                   className="!absolute right-1 top-1 rounded bg-blue"
-                  disabled={condition === ""}
+                  disabled={inclusion === ""}
                 >
                   Add
                 </Button>
@@ -375,20 +387,22 @@ const ChildPackageDetails = () => {
                 >
                   View
                 </Button>
-                {conditions.length > 0 && (
+                {inclusions.length > 0 && (
                   <div className="h-3 w-3 rounded-full bg-green-400 absolute -top-1 -right-1 shadow-xl"></div>
                 )}
                 <Dialog open={open2} handler={handleOpen2}>
-                  <DialogHeader>Conditions</DialogHeader>
+                  <DialogHeader>Package Inclusions</DialogHeader>
                   <DialogBody divider>
-                    {conditions.length > 0 ? (
+                    {inclusions.length > 0 ? (
                       <div className="flex flex-col gap-4">
-                        {conditions.map((c, i) => (
+                        {inclusions.map((c, i) => (
                           <div key={i} className="flex justify-between">
-                            <p className="text-xl w-5/6">{i+1}. {c.condition}</p>
+                            <p className="text-xl w-5/6">
+                              {i + 1}. {c.inclusion}
+                            </p>
                             <div className="w-1/6 flex justify-center">
                               <AiOutlineDelete
-                                onClick={() => removeCondition(i)}
+                                onClick={() => removeInclusion(i)}
                                 className="text-red-500 text-3xl cursor-pointer"
                               />
                             </div>
@@ -414,21 +428,21 @@ const ChildPackageDetails = () => {
                   </DialogFooter>
                 </Dialog>
               </div>
-            </div> */}
-            {/* multiple Exclusions */}
-            {/* <div className="flex items-center gap-5">
+            </div>
+            {/* Package Exclusions -> exclusions */}
+            <div className="flex items-center gap-5">
               <div className="relative flex w-full">
                 <Input
-                  value={treatment}
+                  value={exclusion}
                   type="text"
                   label="Package Exclusions"
-                  onChange={(e) => setTreatment(e.target.value)}
+                  onChange={(e) => setExclusion(e.target.value)}
                 />
                 <Button
                   size="sm"
-                  onClick={addTreatments}
+                  onClick={addExclusion}
                   className="!absolute right-1 top-1 rounded bg-blue"
-                  disabled={treatment === ""}
+                  disabled={exclusion === ""}
                 >
                   Add
                 </Button>
@@ -441,20 +455,22 @@ const ChildPackageDetails = () => {
                 >
                   View
                 </Button>
-                {treatments.length > 0 && (
+                {exclusions.length > 0 && (
                   <div className="h-3 w-3 rounded-full bg-green-400 absolute -top-1 -right-1 shadow-xl"></div>
                 )}
                 <Dialog open={open3} handler={handleOpen3}>
-                  <DialogHeader>Treatments</DialogHeader>
+                  <DialogHeader>Package Exclusions</DialogHeader>
                   <DialogBody divider>
-                    {treatments.length > 0 ? (
+                    {exclusions.length > 0 ? (
                       <div className="flex flex-col gap-4">
-                        {treatments.map((c, i) => (
+                        {exclusions.map((c, i) => (
                           <div key={i} className="flex justify-between">
-                            <p className="text-xl w-5/6">{i+1}. {c.treatment}</p>
+                            <p className="text-xl w-5/6">
+                              {i + 1}. {c.exclusion}
+                            </p>
                             <div className="w-1/6 flex justify-center">
                               <AiOutlineDelete
-                                onClick={() => removeTreatment(i)}
+                                onClick={() => removeExclusion(i)}
                                 className="text-red-500 text-3xl cursor-pointer"
                               />
                             </div>
@@ -480,7 +496,7 @@ const ChildPackageDetails = () => {
                   </DialogFooter>
                 </Dialog>
               </div>
-            </div> */}
+            </div>
           </div>
           <div className="">
             <label htmlFor="" className="text-red">

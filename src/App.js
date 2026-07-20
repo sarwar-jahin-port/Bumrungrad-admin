@@ -10,6 +10,7 @@ import GetPackages from "./pages/GetPackages";
 import Appointment from "./pages/Appointment";
 import DoctorsList from "./pages/DoctorsList";
 import AirAmbulance from "./pages/AirAmbulance";
+import AirAmbulanceHubs from "./pages/AirAmbulanceHubs";
 import MedicineOrder from "./pages/MedicineOrder";
 import AirTicket from "./pages/AirTicket";
 import TeleMedicine from "./pages/TeleMedicine";
@@ -89,6 +90,10 @@ const router = createBrowserRouter([
       {
         path: "/home/air_ambulance",
         element: <AirAmbulance />,
+      },
+      {
+        path: "/home/air_ambulance_hubs",
+        element: <AirAmbulanceHubs />,
       },
       {
         path: "/home/medicine_order",
