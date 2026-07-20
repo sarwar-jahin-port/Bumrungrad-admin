@@ -20,7 +20,7 @@ import {
   ListBulletIcon,
 } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
-import { BiSolidAmbulance, BiSolidUserDetail } from "react-icons/bi";
+import { BiSolidAmbulance, BiSolidUserDetail, BiSolidPhoneCall } from "react-icons/bi";
 import { FaPassport } from "react-icons/fa";
 import { AiOutlineOrderedList, AiFillProfile } from "react-icons/ai";
 import { FaHandHoldingMedical } from "react-icons/fa";
@@ -31,7 +31,7 @@ import {
 } from "react-icons/bs";
 import { ImBlogger2 } from "react-icons/im";
 import { GiNewspaper } from "react-icons/gi";
-import { MdAirplaneTicket, MdWheelchairPickup } from "react-icons/md";
+import { MdAirplaneTicket, MdWheelchairPickup, MdMedicalServices, MdOutlineHotel } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 
 export function LeftBar() {
@@ -338,6 +338,33 @@ export function LeftBar() {
               <FaHandHoldingMedical className="h-5 w-5" />
             </ListItemPrefix>
             Direct Admission
+          </ListItem>
+        </Link>
+        <Link to="/home/medical-consultancy">
+          {" "}
+          <ListItem>
+            <ListItemPrefix>
+              <MdMedicalServices className="h-5 w-5" />
+            </ListItemPrefix>
+            Medical Consultancy
+          </ListItem>
+        </Link>
+        <Link to="/home/lodging-booking">
+          {" "}
+          <ListItem>
+            <ListItemPrefix>
+              <MdOutlineHotel className="h-5 w-5" />
+            </ListItemPrefix>
+            Lodging Booking
+          </ListItem>
+        </Link>
+        <Link to="/home/emergency-desk">
+          {" "}
+          <ListItem>
+            <ListItemPrefix>
+              <BiSolidPhoneCall className="h-5 w-5" />
+            </ListItemPrefix>
+            Emergency Desk
           </ListItem>
         </Link>
         <Link to="/home/visa_processing">

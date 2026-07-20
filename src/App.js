@@ -33,6 +33,9 @@ import Blogslist from "./pages/Blogslist";
 import PrivateAuth from "./auth/PrivateAuth";
 import UpdateDoctor from "./pages/UpdateDoctor";
 import Admission from "./pages/Admission";
+import MedicalConsultancy from "./pages/MedicalConsultancy";
+import LodgingBooking from "./pages/LodgingBooking";
+import EmergencyDesk from "./pages/EmergencyDesk";
 
 const router = createBrowserRouter([
   {
@@ -98,6 +101,18 @@ const router = createBrowserRouter([
       {
         path: "/home/admissions",
         element: <Admission />,
+      },
+      {
+        path: "/home/medical-consultancy",
+        element: <MedicalConsultancy />,
+      },
+      {
+        path: "/home/lodging-booking",
+        element: <LodgingBooking />,
+      },
+      {
+        path: "/home/emergency-desk",
+        element: <EmergencyDesk />,
       },
       {
         path: "/home/air_ticket",

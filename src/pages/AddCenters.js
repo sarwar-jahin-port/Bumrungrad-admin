@@ -1,68 +1,101 @@
-﻿import {
+import {
   Button,
   Input,
+  Textarea,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
 } from '@material-tailwind/react'
 import ReactQuill from 'react-quill'
 import 'react-quill/dist/quill.snow.css'
 import React, { useState } from 'react'
-//import { AiOutlineDelete } from 'react-icons/ai'
+import { AiOutlineDelete } from 'react-icons/ai'
 import { toast } from 'react-toastify'
+
+const slugify = (value) =>
+  value
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '')
 
 export default function AddCenters() {
   const [loader, setLoader] = useState(false)
+
   //dialogue
-  //const [open, setOpen] = React.useState(false)
-  //const handleOpen = () => setOpen(!open)
-  //const [open2, setOpen2] = React.useState(false)
-  //const handleOpen2 = () => setOpen2(!open2)
-  //const [open3, setOpen3] = React.useState(false)
-  //const handleOpen3 = () => setOpen3(!open3)
+  const [open, setOpen] = React.useState(false)
+  const handleOpen = () => setOpen(!open)
+  const [open2, setOpen2] = React.useState(false)
+  const handleOpen2 = () => setOpen2(!open2)
+  const [open3, setOpen3] = React.useState(false)
+  const handleOpen3 = () => setOpen3(!open3)
 
   //data states
   const [selectedCenterImg, setSelectedCenterImg] = useState('')
+  const [selectedFloorMap, setSelectedFloorMap] = useState('')
 
-  //const [information, setInformation] = useState('')
-  //const [informations, setInformations] = useState([])
+  const [slug, setSlug] = useState('')
+  const [slugEdited, setSlugEdited] = useState(false)
 
-  //const [condition, setCondition] = useState('')
-  //const [conditions, setConditions] = useState([])
+  const [description, setDescription] = useState('')
 
-  //const [treatment, setTreatment] = useState('')
-  //const [treatments, setTreatments] = useState([])
+  const [operationalHours, setOperationalHours] = useState('')
+  const [whatsappHotline, setWhatsappHotline] = useState('')
+
+  const [information, setInformation] = useState('')
+  const [informations, setInformations] = useState([])
+
+  const [condition, setCondition] = useState('')
+  const [conditions, setConditions] = useState([])
+
+  const [treatment, setTreatment] = useState('')
+  const [treatments, setTreatments] = useState([])
+
+  const handleNameChange = (e) => {
+    if (!slugEdited) {
+      setSlug(slugify(e.target.value))
+    }
+  }
+
+  const handleSlugChange = (e) => {
+    setSlugEdited(true)
+    setSlug(slugify(e.target.value))
+  }
 
   // informations add remove functions
-  // const addInformations = () => {
-  //   const newInformations = [...informations, { information }]
-  //   setInformations(newInformations)
-  //   setInformation('')
-  // }
-  // const removeInformation = (index) => {
-  //   const updatedInformations = [...informations]
-  //   updatedInformations.splice(index, 1)
-  //   setInformations(updatedInformations)
-  // }
-  // // conditions add remove functions
-  // const addConditions = () => {
-  //   const newConditions = [...conditions, { condition }]
-  //   setConditions(newConditions)
-  //   setCondition('')
-  // }
-  // const removeCondition = (index) => {
-  //   const updatedConditions = [...conditions]
-  //   updatedConditions.splice(index, 1)
-  //   setConditions(updatedConditions)
-  // }
-  // // conditions add remove functions
-  // const addTreatments = () => {
-  //   const newTreatments = [...treatments, { treatment }]
-  //   setTreatments(newTreatments)
-  //   setTreatment('')
-  // }
-  // const removeTreatment = (index) => {
-  //   const updatedTreatments = [...treatments]
-  //   updatedTreatments.splice(index, 1)
-  //   setTreatments(updatedTreatments)
-  // }
+  const addInformations = () => {
+    const newInformations = [...informations, { information }]
+    setInformations(newInformations)
+    setInformation('')
+  }
+  const removeInformation = (index) => {
+    const updatedInformations = [...informations]
+    updatedInformations.splice(index, 1)
+    setInformations(updatedInformations)
+  }
+  // conditions add remove functions
+  const addConditions = () => {
+    const newConditions = [...conditions, { condition }]
+    setConditions(newConditions)
+    setCondition('')
+  }
+  const removeCondition = (index) => {
+    const updatedConditions = [...conditions]
+    updatedConditions.splice(index, 1)
+    setConditions(updatedConditions)
+  }
+  // treatments add remove functions
+  const addTreatments = () => {
+    const newTreatments = [...treatments, { treatment }]
+    setTreatments(newTreatments)
+    setTreatment('')
+  }
+  const removeTreatment = (index) => {
+    const updatedTreatments = [...treatments]
+    updatedTreatments.splice(index, 1)
+    setTreatments(updatedTreatments)
+  }
 
   //react quil
   const [editorValue, seteditorValue] = useState('')
@@ -102,21 +135,10 @@ export default function AddCenters() {
     e.preventDefault()
     const name = e.target.name.value
     const location = e.target.location.value
-    //const description = e.target.description.value
-    const postData = {
-      selectedCenterImg,
-      name,
-      location,
-      //description,
-      editorValue,
-      //informations,
-      //conditions,
-      //treatments,
-    }
     if (
       selectedCenterImg === '' ||
       name === '' ||
-      location === '' 
+      location === ''
     ) {
       setLoader(false)
       if (selectedCenterImg === '') {
@@ -128,19 +150,22 @@ export default function AddCenters() {
       if (location === '') {
         toast.error('Center Location is Required')
       }
-      // if (description === '') {
-      //   toast.error('Center Description')
-      // }
     } else {
       const formData = new FormData()
       formData.append('cover_photo', selectedCenterImg)
       formData.append('name', name)
       formData.append('location', location)
+      formData.append('slug', slug)
+      formData.append('description', description)
       formData.append('content', editorValue)
-      // formData.append('description', description)
-      // formData.append('informations', JSON.stringify(informations))
-      // formData.append('conditions', JSON.stringify(conditions))
-      // formData.append('treatments', JSON.stringify(treatments))
+      formData.append('informations', JSON.stringify(informations))
+      formData.append('conditions', JSON.stringify(conditions))
+      formData.append('treatments', JSON.stringify(treatments))
+      if (selectedFloorMap) {
+        formData.append('floor_map', selectedFloorMap)
+      }
+      formData.append('operational_hours', operationalHours)
+      formData.append('whatsapp_hotline', whatsappHotline)
 
       fetch('http://127.0.0.1:8000/api/add/center', {
         method: 'POST',
@@ -150,10 +175,17 @@ export default function AddCenters() {
         .then((data) => {
           setLoader(false)
           e.target.reset()
-          //setInformations([])
-          //setConditions([])
-          //setTreatments([])
+          setSlug('')
+          setSlugEdited(false)
+          setDescription('')
+          setInformations([])
+          setConditions([])
+          setTreatments([])
+          seteditorValue('')
           setSelectedCenterImg('')
+          setSelectedFloorMap('')
+          setOperationalHours('')
+          setWhatsappHotline('')
           toast.success('Clinic/Centers added successfully!')
         })
         .catch((e) => console.error(e))
@@ -185,10 +217,25 @@ export default function AddCenters() {
           Image Ratio - 1200*628. Image size not more than 500kb
         </p>
         <div className='grid gap-4 lg:grid-cols-2 my-4'>
-          <Input label='Enter Name' name='name' />
+          <Input
+            label='Enter Name'
+            name='name'
+            onChange={handleNameChange}
+          />
           <Input label='Enter Location' name='location' />
+          <div>
+            <Input
+              label='Enter Slug'
+              name='slug'
+              value={slug}
+              onChange={handleSlugChange}
+            />
+            <p className='text-xs text-slate-500 mt-1'>
+              Auto-generated from the name. Used in the page URL — edit only if needed.
+            </p>
+          </div>
           {/* multiple information */}
-          {/* <div className='flex items-center gap-5'>
+          <div className='flex items-center gap-5'>
             <div className='relative flex w-full'>
               <Input
                 value={information}
@@ -261,9 +308,9 @@ export default function AddCenters() {
                 </DialogFooter>
               </Dialog>
             </div>
-          </div> */}
+          </div>
           {/* multiple condition */}
-          {/* <div className='flex items-center gap-5'>
+          <div className='flex items-center gap-5'>
             <div className='relative flex w-full'>
               <Input
                 value={condition}
@@ -336,9 +383,9 @@ export default function AddCenters() {
                 </DialogFooter>
               </Dialog>
             </div>
-          </div> */}
+          </div>
           {/* multiple treatment */}
-          {/* <div className='flex items-center gap-5'>
+          <div className='flex items-center gap-5'>
             <div className='relative flex w-full'>
               <Input
                 value={treatment}
@@ -411,12 +458,17 @@ export default function AddCenters() {
                 </DialogFooter>
               </Dialog>
             </div>
-          </div> */}
+          </div>
         </div>
-        {/* <div className='lg:w-1/2'>
-          <Textarea label='Enter Details' name='description' />
-        </div> */}
-        <div className=''>
+        <div className='lg:w-1/2'>
+          <Textarea
+            label='Enter Short Description'
+            name='description'
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className='mt-4'>
           <label htmlFor='' className='text-red'>
             <span className='font-semibold'>Long Description</span>
           </label>
@@ -429,7 +481,57 @@ export default function AddCenters() {
             className='my-2.5'
           />
         </div>
-        <Button className='bg-blue' type='submit'>
+        <div className='mt-6'>
+          <p className='text-xl font-semibold'>Office Contact Details</p>
+          <p className='text-xs text-slate-500 mb-3'>
+            Shown on the center's page so visitors can find the exact office, know when it's open, and reach a hotline directly.
+          </p>
+          <div className='grid gap-4 lg:grid-cols-2'>
+            <div>
+              <div className='flex flex-row items-center'>
+                <input
+                  type='file'
+                  id='floor-map-input'
+                  onChange={(e) => setSelectedFloorMap(e.target.files[0])}
+                  hidden
+                />
+                <label
+                  htmlFor='floor-map-input'
+                  className='block text-sm text-slate-500 mr-4 py-2 px-4 rounded-md border-0 font-semibold bg-blue duration-300 ease-linear text-white cursor-pointer'
+                >
+                  Choose Floor Map
+                </label>
+                <label className='text-sm text-slate-500'>
+                  {selectedFloorMap?.name ? selectedFloorMap.name : 'No File Chosen'}
+                </label>
+              </div>
+              <p className='text-xs text-slate-500 mt-1'>
+                A photo or scan of the office floor map, optional.
+              </p>
+            </div>
+            <div>
+              <Input
+                label='WhatsApp Hotline'
+                name='whatsapp_hotline'
+                value={whatsappHotline}
+                onChange={(e) => setWhatsappHotline(e.target.value)}
+              />
+              <p className='text-xs text-slate-500 mt-1'>e.g. +66 12 345 6789</p>
+            </div>
+            <div className='lg:col-span-2'>
+              <Textarea
+                label='Operational Hours'
+                name='operational_hours'
+                value={operationalHours}
+                onChange={(e) => setOperationalHours(e.target.value)}
+              />
+              <p className='text-xs text-slate-500 mt-1'>
+                e.g. "Mon-Fri: 8:00 AM - 8:00 PM, Sat-Sun: 9:00 AM - 5:00 PM"
+              </p>
+            </div>
+          </div>
+        </div>
+        <Button className='bg-blue mt-6' type='submit'>
           {loader ? 'Loading' : 'Add Center'}
         </Button>
       </form>
