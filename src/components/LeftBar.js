@@ -21,13 +21,14 @@ import {
 } from "@heroicons/react/24/solid";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { BiSolidAmbulance, BiSolidUserDetail, BiSolidPhoneCall } from "react-icons/bi";
-import { FaPassport, FaMapMarkerAlt } from "react-icons/fa";
-import { AiOutlineOrderedList, AiFillProfile } from "react-icons/ai";
+import { FaPassport, FaMapMarkerAlt, FaCommentMedical } from "react-icons/fa";
+import { AiOutlineOrderedList, AiFillProfile, AiOutlineSafetyCertificate, AiOutlineSetting } from "react-icons/ai";
 import { FaHandHoldingMedical } from "react-icons/fa";
 import { TbRibbonHealth } from "react-icons/tb";
 import {
   BsFillTelephoneForwardFill,
   BsQuestionOctagonFill,
+  BsChatLeftText,
 } from "react-icons/bs";
 import { ImBlogger2 } from "react-icons/im";
 import { GiNewspaper } from "react-icons/gi";
@@ -320,6 +321,38 @@ export function LeftBar() {
               <FaMapMarkerAlt className="h-5 w-5" />
             </ListItemPrefix>
             Air Ambulance Hubs
+          </ListItem>
+        </Link>
+        <Link to="/home/insurance-providers">
+          <ListItem>
+            <ListItemPrefix>
+              <AiOutlineSafetyCertificate className="h-5 w-5" />
+            </ListItemPrefix>
+            Insurance Providers
+          </ListItem>
+        </Link>
+        <Link to="/home/patient-stories">
+          <ListItem>
+            <ListItemPrefix>
+              <FaCommentMedical className="h-5 w-5" />
+            </ListItemPrefix>
+            Patient Stories
+          </ListItem>
+        </Link>
+        <Link to="/home/site-settings">
+          <ListItem>
+            <ListItemPrefix>
+              <AiOutlineSetting className="h-5 w-5" />
+            </ListItemPrefix>
+            Site Settings
+          </ListItem>
+        </Link>
+        <Link to="/home/free-consultations">
+          <ListItem>
+            <ListItemPrefix>
+              <BsChatLeftText className="h-5 w-5" />
+            </ListItemPrefix>
+            Free Consultations
           </ListItem>
         </Link>
         <Link to="/home/medicine_order">

@@ -60,10 +60,10 @@ const NewsList = () => {
                 <div className="flex justify-between">
                   {" "}
                   <Link
-                    to={`/home/one-News/${d?.id}`}
+                    to={`/home/update-news/${d?.id}`}
                     className="text-center bg-blue text-white p-1.5 w-full"
                   >
-                    Read more
+                    Update
                   </Link>
                   <button
                     onClick={() => handaleDeleteNews(d)}

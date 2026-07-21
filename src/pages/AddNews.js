@@ -14,16 +14,19 @@ const AddNews = () => {
     setLoader1(true)
     e.preventDefault()
     const name = e.target.name.value
+    const slogan = e.target.slogan.value
     const descriptiion = e.target.descriptiion.value
     const news = {
       newsImg,
       name,
+      slogan,
       descriptiion,
     }
 
     const formData = new FormData()
     formData.append('newsImage', newsImg)
     formData.append('newsTitle', name)
+    formData.append('newsSlogan', slogan)
     formData.append('newsDescription', descriptiion)
     fetch('http://127.0.0.1:8000/api/add/news', {
       method: 'POST',
@@ -72,6 +75,7 @@ const AddNews = () => {
         </p>
         <div className='my-4 flex flex-col gap-y-4'>
           <Input required label='News Title' name='name' />
+          <Input label='News Slogan' name='slogan' />
           <Textarea required label='News Description' name='descriptiion' />
         </div>
         <Button className='bg-blue' type='submit'>

@@ -11,6 +11,10 @@ import Appointment from "./pages/Appointment";
 import DoctorsList from "./pages/DoctorsList";
 import AirAmbulance from "./pages/AirAmbulance";
 import AirAmbulanceHubs from "./pages/AirAmbulanceHubs";
+import InsuranceProviders from "./pages/InsuranceProviders";
+import PatientStories from "./pages/PatientStories";
+import SiteSettings from "./pages/SiteSettings";
+import FreeConsultations from "./pages/FreeConsultations";
 import MedicineOrder from "./pages/MedicineOrder";
 import AirTicket from "./pages/AirTicket";
 import TeleMedicine from "./pages/TeleMedicine";
@@ -27,7 +31,7 @@ import VisaProcessing from "./pages/VisaProcessing";
 import AddNews from "./pages/AddNews";
 import AddBlogs from "./pages/AddBlogs";
 import OneBlogs from "./pages/OneBlogs";
-import OneNews from "./pages/OneNews";
+import UpdateNews from "./pages/UpdateNews";
 import CenterUpdate from "./pages/CenterUpdate";
 import NewsList from "./pages/NewsList";
 import Blogslist from "./pages/Blogslist";
@@ -94,6 +98,22 @@ const router = createBrowserRouter([
       {
         path: "/home/air_ambulance_hubs",
         element: <AirAmbulanceHubs />,
+      },
+      {
+        path: "/home/insurance-providers",
+        element: <InsuranceProviders />,
+      },
+      {
+        path: "/home/patient-stories",
+        element: <PatientStories />,
+      },
+      {
+        path: "/home/site-settings",
+        element: <SiteSettings />,
+      },
+      {
+        path: "/home/free-consultations",
+        element: <FreeConsultations />,
       },
       {
         path: "/home/medicine_order",
@@ -188,8 +208,8 @@ const router = createBrowserRouter([
         element: <OneBlogs />,
       },
       {
-        path: "/home/one-News/:id",
-        element: <OneNews />,
+        path: "/home/update-news/:id",
+        element: <UpdateNews />,
       },
     ],
   },
