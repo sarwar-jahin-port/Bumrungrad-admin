@@ -8,10 +8,11 @@ import {
   DialogFooter,
 } from '@material-tailwind/react'
 import React, { useEffect, useState } from 'react'
-import { AiOutlineEdit } from 'react-icons/ai'
+import { AiOutlineEdit, AiOutlineDelete, AiOutlinePlus } from 'react-icons/ai'
 import { toast } from 'react-toastify'
 
 const EMPTY_HUB = {
+  city: '',
   office_name: '',
   building: '',
   floor_map: '',
@@ -23,8 +24,6 @@ const EMPTY_HUB = {
   map_embed_url: '',
 }
 
-const HUB_CITIES = ['Dhaka', 'Chattogram']
-
 export default function AirAmbulanceHubs() {
   const [loader, setLoader] = useState(true)
   const [hubs, setHubs] = useState([])
@@ -32,7 +31,6 @@ export default function AirAmbulanceHubs() {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(!open)
 
-  const [activeCity, setActiveCity] = useState('')
   const [activeHubId, setActiveHubId] = useState(null)
   const [form, setForm] = useState(EMPTY_HUB)
   const [saving, setSaving] = useState(false)
@@ -52,22 +50,21 @@ export default function AirAmbulanceHubs() {
     fetchHubs()
   }, [])
 
-  const openEditor = (city) => {
-    const existing = hubs.find((h) => h.city === city)
-    setActiveCity(city)
-    setActiveHubId(existing?.id ?? null)
+  const openEditor = (hub) => {
+    setActiveHubId(hub?.id ?? null)
     setForm(
-      existing
+      hub
         ? {
-            office_name: existing.office_name || '',
-            building: existing.building || '',
-            floor_map: existing.floor_map || '',
-            address: existing.address || '',
-            phone1: existing.phone1 || '',
-            phone2: existing.phone2 || '',
-            whatsapp_hotline: existing.whatsapp_hotline || '',
-            operational_hours: existing.operational_hours || '',
-            map_embed_url: existing.map_embed_url || '',
+            city: hub.city || '',
+            office_name: hub.office_name || '',
+            building: hub.building || '',
+            floor_map: hub.floor_map || '',
+            address: hub.address || '',
+            phone1: hub.phone1 || '',
+            phone2: hub.phone2 || '',
+            whatsapp_hotline: hub.whatsapp_hotline || '',
+            operational_hours: hub.operational_hours || '',
+            map_embed_url: hub.map_embed_url || '',
           }
         : EMPTY_HUB,
     )
@@ -78,9 +75,13 @@ export default function AirAmbulanceHubs() {
     setForm((prev) => ({ ...prev, [field]: e.target.value }))
 
   const handleSave = async () => {
+    if (!form.city.trim()) {
+      toast.error('Hub / City name is required.')
+      return
+    }
+
     setSaving(true)
     const body = new FormData()
-    body.append('city', activeCity)
     Object.keys(form).forEach((key) => body.append(key, form[key]))
 
     const url = activeHubId
@@ -92,7 +93,7 @@ export default function AirAmbulanceHubs() {
       const data = await response.json()
       setSaving(false)
       if (data.status === 200) {
-        toast.success(`${activeCity} hub saved successfully.`)
+        toast.success(`${form.city} hub saved successfully.`)
         setOpen(false)
         fetchHubs()
       } else {
@@ -104,75 +105,111 @@ export default function AirAmbulanceHubs() {
     }
   }
 
+  const handleDelete = async (hub) => {
+    if (!window.confirm(`Delete the ${hub.city} hub? This cannot be undone.`)) {
+      return
+    }
+    try {
+      const response = await fetch(
+        `http://127.0.0.1:8000/api/delete/air/ambulance/hub/${hub.id}`,
+      )
+      const data = await response.json()
+      if (data.status === 200) {
+        toast.success(`${hub.city} hub deleted.`)
+        fetchHubs()
+      } else {
+        toast.error('Something went wrong. Please try again.')
+      }
+    } catch (error) {
+      toast.error('Something went wrong. Please try again.')
+    }
+  }
+
   return (
     <div className="m-5 md:m-10">
-      <p className="text-xl text-blue font-semibold">Air Ambulance Emergency Hubs</p>
-      <p className="mt-2 text-sm text-gray-600">
-        Manage the address, contact numbers, hours, and map for the Dhaka and
-        Chattogram emergency hub sections shown on the public Air Ambulance
-        landing page.
-      </p>
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <p className="text-xl text-blue font-semibold">Air Ambulance Emergency Hubs</p>
+          <p className="mt-2 text-sm text-gray-600">
+            Manage the address, contact numbers, hours, and map for each
+            emergency hub shown on the public Air Ambulance landing page. Add
+            as many hubs as you need.
+          </p>
+        </div>
+        <button
+          onClick={() => openEditor(null)}
+          className="flex items-center gap-2 px-3 py-1.5 shadow rounded bg-blue text-white shrink-0"
+        >
+          <AiOutlinePlus className="text-lg" />
+          Add Hub
+        </button>
+      </div>
 
       {loader ? (
         <p className="mt-10">Loading...</p>
+      ) : hubs.length === 0 ? (
+        <p className="mt-10 text-sm text-gray-500">
+          No hubs configured yet. Click "Add Hub" to create one.
+        </p>
       ) : (
         <div className="mt-5 md:mt-10 grid gap-5 md:grid-cols-2">
-          {HUB_CITIES.map((city) => {
-            const hub = hubs.find((h) => h.city === city)
-            return (
-              <div key={city} className="shadow-xl rounded p-5">
-                <div className="flex items-center justify-between">
-                  <h5 className="text-lg font-semibold text-blue">
-                    {city} Hub
-                  </h5>
+          {hubs.map((hub) => (
+            <div key={hub.id} className="shadow-xl rounded p-5">
+              <div className="flex items-center justify-between">
+                <h5 className="text-lg font-semibold text-blue">
+                  {hub.city} Hub
+                </h5>
+                <div className="flex items-center gap-2">
                   <button
-                    onClick={() => openEditor(city)}
+                    onClick={() => openEditor(hub)}
                     className="flex items-center gap-2 px-3 py-1.5 shadow rounded bg-blue text-white"
                   >
                     <AiOutlineEdit className="text-lg" />
-                    {hub ? 'Edit' : 'Add'}
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(hub)}
+                    className="flex items-center gap-2 px-3 py-1.5 shadow rounded bg-red text-white"
+                  >
+                    <AiOutlineDelete className="text-lg" />
+                    Delete
                   </button>
                 </div>
-
-                {hub ? (
-                  <div className="mt-4 text-sm space-y-1.5">
-                    <p>
-                      <span className="font-semibold">Office: </span>
-                      {hub.office_name || '-'}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Address: </span>
-                      {[hub.building, hub.floor_map, hub.address]
-                        .filter(Boolean)
-                        .join(', ') || '-'}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Phone: </span>
-                      {[hub.phone1, hub.phone2].filter(Boolean).join(' / ') || '-'}
-                    </p>
-                    <p>
-                      <span className="font-semibold">WhatsApp: </span>
-                      {hub.whatsapp_hotline || '-'}
-                    </p>
-                    <p>
-                      <span className="font-semibold">Hours: </span>
-                      {hub.operational_hours || '-'}
-                    </p>
-                  </div>
-                ) : (
-                  <p className="mt-4 text-sm text-gray-500">
-                    Not configured yet.
-                  </p>
-                )}
               </div>
-            )
-          })}
+
+              <div className="mt-4 text-sm space-y-1.5">
+                <p>
+                  <span className="font-semibold">Office: </span>
+                  {hub.office_name || '-'}
+                </p>
+                <p>
+                  <span className="font-semibold">Address: </span>
+                  {[hub.building, hub.floor_map, hub.address]
+                    .filter(Boolean)
+                    .join(', ') || '-'}
+                </p>
+                <p>
+                  <span className="font-semibold">Phone: </span>
+                  {[hub.phone1, hub.phone2].filter(Boolean).join(' / ') || '-'}
+                </p>
+                <p>
+                  <span className="font-semibold">WhatsApp: </span>
+                  {hub.whatsapp_hotline || '-'}
+                </p>
+                <p>
+                  <span className="font-semibold">Hours: </span>
+                  {hub.operational_hours || '-'}
+                </p>
+              </div>
+            </div>
+          ))}
         </div>
       )}
 
       <Dialog open={open} handler={handleOpen} size="lg">
-        <DialogHeader>{activeCity} Hub Details</DialogHeader>
+        <DialogHeader>{activeHubId ? `${form.city} Hub Details` : 'New Hub'}</DialogHeader>
         <DialogBody className="max-h-[70vh] overflow-y-auto grid gap-4">
+          <Input label="Hub / City Name" value={form.city} onChange={handleChange('city')} />
           <Input label="Office Name" value={form.office_name} onChange={handleChange('office_name')} />
           <Input label="Building" value={form.building} onChange={handleChange('building')} />
           <Input label="Floor" value={form.floor_map} onChange={handleChange('floor_map')} />
