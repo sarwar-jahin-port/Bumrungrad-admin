@@ -41,6 +41,9 @@ import Admission from "./pages/Admission";
 import MedicalConsultancy from "./pages/MedicalConsultancy";
 import LodgingBooking from "./pages/LodgingBooking";
 import EmergencyDesk from "./pages/EmergencyDesk";
+import LanguageInterpreter from "./pages/LanguageInterpreter";
+import FundTransfer from "./pages/FundTransfer";
+import ContactUs from "./pages/ContactUs";
 
 const router = createBrowserRouter([
   {
@@ -138,6 +141,18 @@ const router = createBrowserRouter([
       {
         path: "/home/emergency-desk",
         element: <EmergencyDesk />,
+      },
+      {
+        path: "/home/language-interpreter",
+        element: <LanguageInterpreter />,
+      },
+      {
+        path: "/home/fund-transfer",
+        element: <FundTransfer />,
+      },
+      {
+        path: "/home/contact-us",
+        element: <ContactUs />,
       },
       {
         path: "/home/air_ticket",

@@ -11,7 +11,7 @@ import {
 } from "@material-tailwind/react";
 import { AiFillEye } from "react-icons/ai";
 
-const LodgingBooking = () => {
+const LanguageInterpreter = () => {
   const [loader, setLoader] = useState(true);
   const [open, setOpen] = useState(false);
   const [modalData, setModalData] = useState({});
@@ -27,7 +27,7 @@ const LodgingBooking = () => {
     );
     if (confirmed) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/lodging_bookings/${requestData.id}`
+        `http://127.0.0.1:8000/api/delete/language_interpreters/${requestData.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -45,7 +45,7 @@ const LodgingBooking = () => {
   const TABLE_HEAD = ["Request ID", "Full Name", "WhatsApp", "Action"];
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/lodging-booking")
+    fetch("http://127.0.0.1:8000/api/get/language-interpreter")
       .then((res) => res.json())
       .then((data) => {
         setRequests(data.data || []);
@@ -60,7 +60,7 @@ const LodgingBooking = () => {
       ) : (
         <>
           <p className="text-xl font-semibold text-blue">
-            Lodging Booking Requests: {requests?.length}
+            Language Interpreter Requests: {requests?.length}
           </p>
           <Card className="mt-5 md:mt-10 h-full overflow-scroll">
             <table className="w-full min-w-max table-auto text-left">
@@ -122,7 +122,7 @@ const LodgingBooking = () => {
       )}
       <Dialog open={open} handler={handleOpen} size="sm">
         <DialogHeader>
-          <p>Lodging Booking Request</p>
+          <p>Language Interpreter Request</p>
         </DialogHeader>
         <DialogBody>
           <h1 className="mt-2.5">
@@ -163,4 +163,4 @@ const LodgingBooking = () => {
   );
 };
 
-export default LodgingBooking;
+export default LanguageInterpreter;

@@ -43,6 +43,7 @@ const MedicalRecord = () => {
   const TABLE_HEAD = [
     "Request ID",
     "Name",
+    "WhatsApp",
     "HN Number",
     "Passport Copy",
     "Action",
@@ -77,7 +78,7 @@ const MedicalRecord = () => {
                         variant="small"
                         color="blue-gray"
                         className={`font-normal leading-none opacity-70 ${
-                          i === 4 && "text-center"
+                          i === 5 && "text-center"
                         }`}
                       >
                         {head}
@@ -97,6 +98,15 @@ const MedicalRecord = () => {
                         className="font-normal"
                       >
                         {oneMedicalRecord?.name}
+                      </Typography>
+                    </td>
+                    <td className="p-4">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {oneMedicalRecord?.whatsapp}
                       </Typography>
                     </td>
                     <td className="p-4">
@@ -141,6 +151,10 @@ const MedicalRecord = () => {
           <p className="mt-5">
             <span className="font-semibold">Name:</span>{" "}
             {medicalRecordModalData?.name}
+          </p>
+          <p className="mt-5">
+            <span className="font-semibold">WhatsApp:</span>{" "}
+            {medicalRecordModalData?.whatsapp}
           </p>
           <p className="mt-5">
             <span className="font-semibold">HN Number:</span>{" "}

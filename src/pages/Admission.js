@@ -10,6 +10,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { AiFillEye } from "react-icons/ai";
+import { BsFileEarmarkArrowDown } from "react-icons/bs";
 
 const Admission = () => {
   const [loader, setLoader] = useState(true);
@@ -131,6 +132,31 @@ const Admission = () => {
             <span className="font-semibold"> WhatsApp : </span>{" "}
             {admissionModalData?.whatsapp}
           </p>
+          <p className="mt-2.5">
+            <span className="font-semibold"> Birth Date : </span>{" "}
+            {admissionModalData?.birthDate}
+          </p>
+          <p className="mt-2.5">
+            <span className="font-semibold"> Patient Type : </span>{" "}
+            <span className="capitalize">
+              {admissionModalData?.patientType}
+            </span>
+          </p>
+          <p className="mt-2.5">
+            <span className="font-semibold"> Medical Concern : </span>{" "}
+            {admissionModalData?.medicalConcern}
+          </p>
+          {admissionModalData?.passport && (
+            <div className="mt-2.5">
+              <a
+                className="flex w-fit gap-2 items-center px-2 py-1 shadow rounded bg-blue text-white"
+                href={admissionModalData?.passport}
+                target="blank"
+              >
+                <BsFileEarmarkArrowDown className="text-xl" /> Passport
+              </a>
+            </div>
+          )}
           {/* Legacy fields from the pre-redesign form (doc §2.2 trimmed
               these out). Shown only when present, so any older/imported
               requests still display correctly. */}

@@ -40,6 +40,7 @@ const MedicineOrder = () => {
     "Request ID",
     "Name",
     "Phone Number",
+    "Concern",
     "Prescriotion Picture",
     "Medicine List",
     "Clear Order",
@@ -101,6 +102,15 @@ const MedicineOrder = () => {
                         className="font-normal"
                       >
                         {medicine?.phoneNumber}
+                      </Typography>
+                    </td>
+                    <td className="p-4">
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
+                      >
+                        {medicine?.concern}
                       </Typography>
                     </td>
                     <td className="p-4">

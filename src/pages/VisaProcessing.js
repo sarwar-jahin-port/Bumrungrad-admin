@@ -137,6 +137,10 @@ const VisaProcessing = () => {
                   <span className="font-semibold"> WhatsApp : </span>{" "}
                   {oneVisa?.whatsapp}
                 </p>
+                <p className="mt-2.5">
+                  <span className="font-semibold"> Concern : </span>{" "}
+                  {oneVisa?.mediicalCorncern}
+                </p>
                 {/* Legacy fields from the pre-redesign form (doc §2.2 trimmed
                     these out). Shown only when present, so any older/imported
                     requests still display correctly. */}

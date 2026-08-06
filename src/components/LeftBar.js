@@ -32,7 +32,7 @@ import {
 } from "react-icons/bs";
 import { ImBlogger2 } from "react-icons/im";
 import { GiNewspaper } from "react-icons/gi";
-import { MdAirplaneTicket, MdWheelchairPickup, MdMedicalServices, MdOutlineHotel } from "react-icons/md";
+import { MdAirplaneTicket, MdWheelchairPickup, MdMedicalServices, MdOutlineHotel, MdTranslate, MdOutlineCurrencyExchange, MdContactMail } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 
 export function LeftBar() {
@@ -406,6 +406,33 @@ export function LeftBar() {
               <BiSolidPhoneCall className="h-5 w-5" />
             </ListItemPrefix>
             Emergency Desk
+          </ListItem>
+        </Link>
+        <Link to="/home/language-interpreter">
+          {" "}
+          <ListItem>
+            <ListItemPrefix>
+              <MdTranslate className="h-5 w-5" />
+            </ListItemPrefix>
+            Language Interpreter
+          </ListItem>
+        </Link>
+        <Link to="/home/fund-transfer">
+          {" "}
+          <ListItem>
+            <ListItemPrefix>
+              <MdOutlineCurrencyExchange className="h-5 w-5" />
+            </ListItemPrefix>
+            Fund Transfer
+          </ListItem>
+        </Link>
+        <Link to="/home/contact-us">
+          {" "}
+          <ListItem>
+            <ListItemPrefix>
+              <MdContactMail className="h-5 w-5" />
+            </ListItemPrefix>
+            Contact Us
           </ListItem>
         </Link>
         <Link to="/home/visa_processing">

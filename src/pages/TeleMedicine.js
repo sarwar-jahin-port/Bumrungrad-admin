@@ -47,15 +47,14 @@ const TeleMedicine = () => {
     "Request ID",
     "Patient Name",
     "Patient Type",
-    "Doctor Name",
-    "Time Slot",
+    "WhatsApp",
     "Action",
   ];
   useEffect(() => {
     fetch("http://127.0.0.1:8000/api/get/tele/medicine")
       .then((res) => res.json())
       .then((data) => {
-        setTeleMedicine(data.data);
+        setTeleMedicine(data.data || []);
         setLoader(false);
       });
   }, []);
@@ -117,16 +116,7 @@ const TeleMedicine = () => {
                           color="blue-gray"
                           className="font-normal"
                         >
-                          {oneTelemedicine?.preferredDoctor}
-                        </Typography>
-                      </td>
-                      <td className="p-4">
-                        <Typography
-                          variant="small"
-                          color="blue-gray"
-                          className="font-normal"
-                        >
-                          {oneTelemedicine?.timeSlot}
+                          {oneTelemedicine?.contactDetails}
                         </Typography>
                       </td>
 
@@ -211,17 +201,24 @@ const TeleMedicine = () => {
                   </h1>{" "}
                   <hr />
                   <p className="mt-2.5">
-                    <span className="font-semibold"> Preferred Doctor :</span>{" "}
-                    {teleMedicineModalData?.preferredDoctor}
-                  </p>
-                  <p className="mt-2.5">
-                    <span className="font-semibold"> Time Slot : </span>{" "}
-                    {teleMedicineModalData?.timeSlot}
-                  </p>
-                  <p className="mt-2.5">
                     <span className="font-semibold"> Specific Concern : </span>{" "}
                     {teleMedicineModalData?.specificConcern}
                   </p>
+                  {/* Legacy fields from the pre-redesign form (doctor/time-slot
+                      selection was trimmed out). Shown only when present, so
+                      any older/imported requests still display correctly. */}
+                  {teleMedicineModalData?.preferredDoctor && (
+                    <p className="mt-2.5">
+                      <span className="font-semibold"> Preferred Doctor :</span>{" "}
+                      {teleMedicineModalData?.preferredDoctor}
+                    </p>
+                  )}
+                  {teleMedicineModalData?.timeSlot && (
+                    <p className="mt-2.5">
+                      <span className="font-semibold"> Time Slot : </span>{" "}
+                      {teleMedicineModalData?.timeSlot}
+                    </p>
+                  )}
                   {teleMedicineModalData?.hnNum && (
                     <p className="mt-2.5">
                       <span className="font-semibold">HN Number : </span>
@@ -253,7 +250,16 @@ const TeleMedicine = () => {
             </div>
           </DialogBody>
           <DialogFooter className="flex justify-between">
-            <div className="">
+            <div className="flex gap-2">
+              {teleMedicineModalData?.passport && (
+                <a
+                  className="flex w-fit gap-2 items-center px-2 py-1 shadow rounded bg-blue text-white font-light text-lg"
+                  href={teleMedicineModalData?.passport}
+                  target="blank"
+                >
+                  <BsFileEarmarkArrowDown className="text-xl" /> Passport
+                </a>
+              )}
               {teleMedicineModalData?.investigationDocument && (
                 <a
                   className="flex w-fit gap-2 items-center px-2 py-1 shadow rounded bg-blue text-white font-light text-lg"

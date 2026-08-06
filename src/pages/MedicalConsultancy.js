@@ -10,6 +10,7 @@ import {
   DialogFooter,
 } from "@material-tailwind/react";
 import { AiFillEye } from "react-icons/ai";
+import { BsFileEarmarkArrowDown } from "react-icons/bs";
 
 const MedicalConsultancy = () => {
   const [loader, setLoader] = useState(true);
@@ -133,6 +134,29 @@ const MedicalConsultancy = () => {
             <span className="font-semibold"> WhatsApp : </span>{" "}
             {modalData?.whatsapp}
           </p>
+          <p className="mt-2.5">
+            <span className="font-semibold"> Birth Date : </span>{" "}
+            {modalData?.birthDate}
+          </p>
+          <p className="mt-2.5">
+            <span className="font-semibold"> Patient Type : </span>{" "}
+            <span className="capitalize">{modalData?.patientType}</span>
+          </p>
+          <p className="mt-2.5">
+            <span className="font-semibold"> Concern : </span>{" "}
+            {modalData?.specificConcern}
+          </p>
+          {modalData?.passport && (
+            <div className="mt-2.5">
+              <a
+                className="flex w-fit gap-2 items-center px-2 py-1 shadow rounded bg-blue text-white"
+                href={modalData?.passport}
+                target="blank"
+              >
+                <BsFileEarmarkArrowDown className="text-xl" /> Passport
+              </a>
+            </div>
+          )}
         </DialogBody>
         <DialogFooter className="flex justify-end">
           <Button

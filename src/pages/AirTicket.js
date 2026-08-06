@@ -10,6 +10,7 @@ const AirTicket = () => {
     "Request ID",
     "Full Name",
     "WhatsApp",
+    "Concern",
     "Action",
   ];
   const handaleDeleteAirTicekt = (oneTicket) => {
@@ -91,6 +92,15 @@ const AirTicket = () => {
                           className="font-normal"
                         >
                           {oneTicket?.whatsapp}
+                        </Typography>
+                      </td>
+                      <td className="p-4">
+                        <Typography
+                          variant="small"
+                          color="blue-gray"
+                          className="font-normal"
+                        >
+                          {oneTicket?.concern}
                         </Typography>
                       </td>
                       <td className="p-4">

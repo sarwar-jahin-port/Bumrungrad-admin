@@ -1,27 +1,32 @@
-﻿import React, { useState, useEffect } from "react";
-import { BsFileEarmarkArrowDown, BsFillPersonFill } from "react-icons/bs";
+import React, { useState, useEffect } from "react";
+import { BsFileEarmarkArrowDown } from "react-icons/bs";
 import { Card, Typography } from "@material-tailwind/react";
 import Loader from "../components/Loader";
-import { Button } from "@material-tailwind/react";
+import {
+  Button,
+  Dialog,
+  DialogHeader,
+  DialogBody,
+  DialogFooter,
+} from "@material-tailwind/react";
+import { AiFillEye } from "react-icons/ai";
+
 const AirPickUp = () => {
   const [loader, setLoader] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [modalData, setModalData] = useState({});
   const [airPickup, setAirPickup] = useState([]);
-  const TABLE_HEAD = [
-    "Request ID",
-    "Patient  Appointment File",
-    "Air Ticket File",
-    "Number of Passenger",
-    "Action",
-  ];
+  const handleOpen = (data) => {
+    setOpen(!open);
+    setModalData(data);
+  };
+
+  const TABLE_HEAD = ["Request ID", "Full Name", "WhatsApp", "Action"];
 
   const handaleDeleteAirPickUp = (pickUp) => {
-    const aggre = window.confirm(
-      `You Want to Delete, ${pickUp?.passenger} Number of Passenger.`
-    );
+    const aggre = window.confirm(`You Want to Delete, ${pickUp?.fullName}.`);
     if (aggre) {
-      fetch(
-        `http://127.0.0.1:8000/api/delete/air_pickups/${pickUp.id}`
-      )
+      fetch(`http://127.0.0.1:8000/api/delete/air_pickups/${pickUp.id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
@@ -39,7 +44,7 @@ const AirPickUp = () => {
     fetch("http://127.0.0.1:8000/api/get/air/pickup")
       .then((res) => res.json())
       .then((data) => {
-        setAirPickup(data.data);
+        setAirPickup(data.data || []);
         setLoader(false);
       });
   }, []);
@@ -78,42 +83,31 @@ const AirPickUp = () => {
                   <tr key={index} className="even:bg-blue-gray-50/50">
                     <td className="p-4">{index + 1}</td>
                     <td className="p-4">
-                      <a
-                        href={pickUp?.appointment}
-                        target="blank"
-                        rel="noopener noreferrer"
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
                       >
-                        <button className="flex items-center gap-2 px-4 py-2 shadow rounded bg-blue text-white ">
-                          <BsFileEarmarkArrowDown /> Appointment File
-                        </button>
-                      </a>
+                        {pickUp?.fullName}
+                      </Typography>
                     </td>
                     <td className="p-4">
-                      <a
-                        href={pickUp?.air_ticket}
-                        target="blank"
-                        rel="noopener noreferrer"
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-normal"
                       >
-                        <button className="flex items-center gap-2 px-4 py-2 shadow rounded bg-blue text-white ">
-                          <BsFileEarmarkArrowDown /> Passport Copy
-                        </button>
-                      </a>
+                        {pickUp?.whatsapp}
+                      </Typography>
                     </td>
                     <td className="p-4">
-                      <button className="flex items-center gap-2 px-4 py-2 min-w-[100px] shadow rounded bg-blue text-white ">
-                        <BsFillPersonFill /> {pickUp?.passenger}
+                      <button
+                        onClick={() => handleOpen(pickUp)}
+                        className="px-4 py-2 shadow rounded bg-blue text-white flex items-center gap-2"
+                      >
+                        <AiFillEye className="text-xl" />
+                        View
                       </button>
-                    </td>
-                    <td className="p-4">
-                      <Button
-                        onClick={() => {
-                          handaleDeleteAirPickUp(pickUp);
-                        }}
-                        variant="gradient"
-                        color="red"
-                      >
-                        <span>Delete</span>
-                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -122,6 +116,77 @@ const AirPickUp = () => {
           </Card>
         </>
       )}
+      <Dialog open={open} handler={handleOpen} size="sm">
+        <DialogHeader>
+          <p>Airport Pick & Drop Request</p>
+        </DialogHeader>
+        <DialogBody>
+          <h1 className="mt-2.5">
+            <span className="font-semibold">Name : </span>{" "}
+            {modalData?.fullName}
+          </h1>
+          <p className="mt-2.5">
+            <span className="font-semibold"> WhatsApp : </span>{" "}
+            {modalData?.whatsapp}
+          </p>
+          <p className="mt-2.5">
+            <span className="font-semibold"> Concern : </span>{" "}
+            {modalData?.concern}
+          </p>
+          {/* Legacy fields from the pre-redesign form (appointment/air ticket
+              file upload + passenger count). Shown only when present, so any
+              older/imported requests still display correctly. */}
+          {modalData?.passenger && (
+            <p className="mt-2.5">
+              <span className="font-semibold"> Number of Passenger : </span>{" "}
+              {modalData?.passenger}
+            </p>
+          )}
+          {modalData?.appointment && (
+            <div className="mt-2.5">
+              <a
+                className="flex w-fit gap-2 items-center px-2 py-1 shadow rounded bg-blue text-white"
+                href={modalData?.appointment}
+                target="blank"
+              >
+                <BsFileEarmarkArrowDown className="text-xl" /> Appointment
+                File
+              </a>
+            </div>
+          )}
+          {modalData?.air_ticket && (
+            <div className="mt-2.5">
+              <a
+                className="flex w-fit gap-2 items-center px-2 py-1 shadow rounded bg-blue text-white"
+                href={modalData?.air_ticket}
+                target="blank"
+              >
+                <BsFileEarmarkArrowDown className="text-xl" /> Air Ticket Copy
+              </a>
+            </div>
+          )}
+        </DialogBody>
+        <DialogFooter className="flex justify-end">
+          <Button
+            variant="gradient"
+            color="black"
+            onClick={handleOpen}
+            className="mr-4"
+          >
+            <span>Close</span>
+          </Button>
+          <Button
+            onClick={() => {
+              handaleDeleteAirPickUp(modalData);
+              handleOpen();
+            }}
+            variant="gradient"
+            color="red"
+          >
+            <span>Delete</span>
+          </Button>
+        </DialogFooter>
+      </Dialog>
     </div>
   );
 };
