@@ -11,6 +11,10 @@ const EMPTY = {
   footer_facebook_url: '',
   footer_youtube_url: '',
   footer_whatsapp_url: '',
+  footer_instagram_url: '',
+  footer_linkedin_url: '',
+  footer_telegram_url: '',
+  footer_email: '',
 }
 
 export default function SiteSettings() {
@@ -62,6 +66,7 @@ export default function SiteSettings() {
       <p className="mt-2 text-sm text-gray-600">
         These values drive the breaking-news ticker, the animated stat
         counters, and the footer address/social links on the public site.
+        The social links below also drive the header's social icons.
       </p>
 
       {loader ? (
@@ -89,7 +94,7 @@ export default function SiteSettings() {
             onChange={handleChange('stat_complex_cases_coordinated')}
           />
           <hr className="border-gray-200" />
-          <p className="font-semibold text-blue">Footer</p>
+          <p className="font-semibold text-blue">Footer & Header Social Links</p>
           <Textarea
             label="Office Address (footer)"
             value={form.footer_address}
@@ -109,6 +114,26 @@ export default function SiteSettings() {
             label="WhatsApp URL"
             value={form.footer_whatsapp_url}
             onChange={handleChange('footer_whatsapp_url')}
+          />
+          <Input
+            label="Instagram URL"
+            value={form.footer_instagram_url}
+            onChange={handleChange('footer_instagram_url')}
+          />
+          <Input
+            label="LinkedIn URL"
+            value={form.footer_linkedin_url}
+            onChange={handleChange('footer_linkedin_url')}
+          />
+          <Input
+            label="Telegram URL (e.g. https://t.me/+66948283651)"
+            value={form.footer_telegram_url}
+            onChange={handleChange('footer_telegram_url')}
+          />
+          <Input
+            label="Contact Email"
+            value={form.footer_email}
+            onChange={handleChange('footer_email')}
           />
           <Button className="bg-blue w-fit" onClick={handleSave} disabled={saving}>
             {saving ? 'Saving...' : 'Save Settings'}
