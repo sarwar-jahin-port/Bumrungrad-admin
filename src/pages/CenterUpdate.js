@@ -133,7 +133,7 @@ export default function CenterUpdate() {
   //get center
   useEffect(() => {
     setLoader(true);
-    fetch(`http://127.0.0.1:8000/api/get/centers/${routeSlug}`)
+    fetch(`https://api.discoverinternationalmedicalservice.com/api/get/centers/${routeSlug}`)
       .then((res) => res.json())
       .then((data) => {
         const found = data?.response?.data;
@@ -173,7 +173,7 @@ export default function CenterUpdate() {
     formData.append("operational_hours", operationalHours);
     formData.append("whatsapp_hotline", whatsappHotline);
 
-    fetch(`http://127.0.0.1:8000/api/update/center/${center.id}`, {
+    fetch(`https://api.discoverinternationalmedicalservice.com/api/update/center/${center.id}`, {
       method: "POST",
       body: formData,
     })

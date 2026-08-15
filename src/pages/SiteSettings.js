@@ -23,7 +23,7 @@ export default function SiteSettings() {
   const [form, setForm] = useState(EMPTY)
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/get/site-settings')
+    fetch('https://api.discoverinternationalmedicalservice.com/api/get/site-settings')
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
@@ -43,7 +43,7 @@ export default function SiteSettings() {
     Object.keys(form).forEach((key) => body.append(key, form[key]))
 
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/update/site-settings', {
+      const response = await fetch('https://api.discoverinternationalmedicalservice.com/api/update/site-settings', {
         method: 'POST',
         body,
       })

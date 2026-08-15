@@ -28,7 +28,7 @@ const TeleMedicine = () => {
     );
     if (aggre) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/tele_medicines/${telemedicineData.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/tele_medicines/${telemedicineData.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -51,7 +51,7 @@ const TeleMedicine = () => {
     "Action",
   ];
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/tele/medicine")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/tele/medicine")
       .then((res) => res.json())
       .then((data) => {
         setTeleMedicine(data.data || []);

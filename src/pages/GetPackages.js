@@ -36,7 +36,7 @@ export default function GetPackages() {
   const handaleDeletePackage = (p) => {
     const aggre = window.confirm(`You Want to Delete, ${p?.title}.`);
     if (aggre) {
-      fetch(`http://127.0.0.1:8000/api/delete/packages/${p.id}`)
+      fetch(`https://api.discoverinternationalmedicalservice.com/api/delete/packages/${p.id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
@@ -51,7 +51,7 @@ export default function GetPackages() {
   // get parent packages
   useEffect(() => {
     setLoader(true);
-    fetch("http://127.0.0.1:8000/api/get/package")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/package")
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 404) {
@@ -70,7 +70,7 @@ export default function GetPackages() {
     formData.append("title", title);
     formData.append("description", description);
 
-    fetch(`http://127.0.0.1:8000/api/update/package/${id}`, {
+    fetch(`https://api.discoverinternationalmedicalservice.com/api/update/package/${id}`, {
       method: "POST",
       body: formData,
     })

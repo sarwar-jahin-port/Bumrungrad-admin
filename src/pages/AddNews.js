@@ -28,7 +28,7 @@ const AddNews = () => {
     formData.append('newsTitle', name)
     formData.append('newsSlogan', slogan)
     formData.append('newsDescription', descriptiion)
-    fetch('http://127.0.0.1:8000/api/add/news', {
+    fetch('https://api.discoverinternationalmedicalservice.com/api/add/news', {
       method: 'POST',
       body: formData,
     })

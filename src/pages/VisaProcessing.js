@@ -23,7 +23,7 @@ const VisaProcessing = () => {
     const aggre = window.confirm(`You Want to Delete, ${oneVisa?.fullName}.`);
     if (aggre) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/visa_processings/${oneVisa.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/visa_processings/${oneVisa.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -41,7 +41,7 @@ const VisaProcessing = () => {
   const TABLE_HEAD = ["Request ID", "Full Name", "WhatsApp", "Action"];
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/visa/precessing")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/visa/precessing")
       .then((res) => res.json())
       .then((data) => {
         setVisaProcess(data.data);

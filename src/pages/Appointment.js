@@ -25,7 +25,7 @@ const Appointment = () => {
     queryKey: ["appointment"],
     queryFn: () =>
       fetch(
-        "http://127.0.0.1:8000/api/get/doctor/appointments"
+        "https://api.discoverinternationalmedicalservice.com/api/get/doctor/appointments"
       ).then((res) => res.json()),
   });
 
@@ -36,7 +36,7 @@ const Appointment = () => {
   // handle status change
   const handaleStatusChange = (data) => {
     fetch(
-      `http://127.0.0.1:8000/api/review/appointment/${data?.id}`
+      `https://api.discoverinternationalmedicalservice.com/api/review/appointment/${data?.id}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -47,7 +47,7 @@ const Appointment = () => {
   };
   const handaleSucess = (id) => {
     fetch(
-      `http://127.0.0.1:8000/api/appointment/success/${id}`
+      `https://api.discoverinternationalmedicalservice.com/api/appointment/success/${id}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -70,7 +70,7 @@ const Appointment = () => {
     );
     if (aggre) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/doctorappoinments/${appointmentData?.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/doctorappoinments/${appointmentData?.id}`
       )
         .then((res) => res.json())
         .then((data) => {

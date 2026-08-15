@@ -26,7 +26,7 @@ export default function InsuranceProviders() {
 
   const fetchProviders = () => {
     setLoader(true)
-    fetch('http://127.0.0.1:8000/api/get/insurance-providers')
+    fetch('https://api.discoverinternationalmedicalservice.com/api/get/insurance-providers')
       .then((res) => res.json())
       .then((data) => {
         setProviders(data.status === 200 ? data.data : [])
@@ -71,8 +71,8 @@ export default function InsuranceProviders() {
     }
 
     const url = activeId
-      ? `http://127.0.0.1:8000/api/update/insurance-provider/${activeId}`
-      : 'http://127.0.0.1:8000/api/create/insurance-provider'
+      ? `https://api.discoverinternationalmedicalservice.com/api/update/insurance-provider/${activeId}`
+      : 'https://api.discoverinternationalmedicalservice.com/api/create/insurance-provider'
 
     try {
       const response = await fetch(url, { method: 'POST', body })
@@ -94,7 +94,7 @@ export default function InsuranceProviders() {
   const handleDelete = (provider) => {
     const confirmed = window.confirm(`Delete "${provider.name}"?`)
     if (!confirmed) return
-    fetch(`http://127.0.0.1:8000/api/delete/insurance-provider/${provider.id}`)
+    fetch(`https://api.discoverinternationalmedicalservice.com/api/delete/insurance-provider/${provider.id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {

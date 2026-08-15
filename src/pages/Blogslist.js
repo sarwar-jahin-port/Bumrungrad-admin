@@ -7,7 +7,7 @@ const Blogslist = () => {
   const [allBlogs, setAllBlogs] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/blogs")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/blogs")
       .then((res) => res.json())
       .then((data) => {
         setAllBlogs(data.data);
@@ -18,7 +18,7 @@ const Blogslist = () => {
     const aggre = window.confirm(`You Want to Delete, ${oneBlogs?.blogTitle}.`);
     if (aggre) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/blogs/${oneBlogs.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/blogs/${oneBlogs.id}`
       )
         .then((res) => res.json())
         .then((data) => {

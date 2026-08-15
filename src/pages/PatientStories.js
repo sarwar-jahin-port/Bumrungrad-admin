@@ -13,7 +13,7 @@ export default function PatientStories() {
 
   const fetchStories = () => {
     setLoader(true)
-    fetch('http://127.0.0.1:8000/api/get/patient-stories/admin')
+    fetch('https://api.discoverinternationalmedicalservice.com/api/get/patient-stories/admin')
       .then((res) => res.json())
       .then((data) => {
         setStories(data.status === 200 ? data.data : [])
@@ -27,7 +27,7 @@ export default function PatientStories() {
   }, [])
 
   const handleApprove = (story) => {
-    fetch(`http://127.0.0.1:8000/api/update/patient-story/${story.id}`, {
+    fetch(`https://api.discoverinternationalmedicalservice.com/api/update/patient-story/${story.id}`, {
       method: 'POST',
       body: (() => {
         const body = new FormData()
@@ -53,7 +53,7 @@ export default function PatientStories() {
       `Delete/reject the story submitted by ${story.patient_name}?`,
     )
     if (!confirmed) return
-    fetch(`http://127.0.0.1:8000/api/delete/patient-story/${story.id}`)
+    fetch(`https://api.discoverinternationalmedicalservice.com/api/delete/patient-story/${story.id}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {

@@ -26,7 +26,7 @@ const AirPickUp = () => {
   const handaleDeleteAirPickUp = (pickUp) => {
     const aggre = window.confirm(`You Want to Delete, ${pickUp?.fullName}.`);
     if (aggre) {
-      fetch(`http://127.0.0.1:8000/api/delete/air_pickups/${pickUp.id}`)
+      fetch(`https://api.discoverinternationalmedicalservice.com/api/delete/air_pickups/${pickUp.id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
@@ -41,7 +41,7 @@ const AirPickUp = () => {
   };
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/air/pickup")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/air/pickup")
       .then((res) => res.json())
       .then((data) => {
         setAirPickup(data.data || []);

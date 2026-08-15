@@ -26,7 +26,7 @@ const ContactUs = () => {
       `You Want to Delete, ${contactData.name}.`
     );
     if (confirmed) {
-      fetch(`http://127.0.0.1:8000/api/delete/contacts/${contactData.id}`)
+      fetch(`https://api.discoverinternationalmedicalservice.com/api/delete/contacts/${contactData.id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
@@ -43,7 +43,7 @@ const ContactUs = () => {
   const TABLE_HEAD = ["Request ID", "Name", "Email", "Phone", "Action"];
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/contact")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/contact")
       .then((res) => res.json())
       .then((data) => {
         setContacts(data.data || []);

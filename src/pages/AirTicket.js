@@ -19,7 +19,7 @@ const AirTicket = () => {
     );
     if (aggre) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/air_tickets/${oneTicket.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/air_tickets/${oneTicket.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -34,7 +34,7 @@ const AirTicket = () => {
     }
   };
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/air/ticket")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/air/ticket")
       .then((res) => res.json())
       .then((data) => {
         setAirTicket(data.data);

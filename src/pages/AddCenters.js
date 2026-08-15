@@ -167,7 +167,7 @@ export default function AddCenters() {
       formData.append('operational_hours', operationalHours)
       formData.append('whatsapp_hotline', whatsappHotline)
 
-      fetch('http://127.0.0.1:8000/api/add/center', {
+      fetch('https://api.discoverinternationalmedicalservice.com/api/add/center', {
         method: 'POST',
         body: formData,
       })

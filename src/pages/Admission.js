@@ -27,7 +27,7 @@ const Admission = () => {
       `You Want to Delete, ${admissionData.fullName}.`
     );
     if (confirmed) {
-      fetch(`http://127.0.0.1:8000/api/delete/admissions/${admissionData.id}`)
+      fetch(`https://api.discoverinternationalmedicalservice.com/api/delete/admissions/${admissionData.id}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.status === 200) {
@@ -44,7 +44,7 @@ const Admission = () => {
   const TABLE_HEAD = ["Request ID", "Full Name", "WhatsApp", "Action"];
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/admission")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/admission")
       .then((res) => res.json())
       .then((data) => {
         setAdmissions(data.data || []);
