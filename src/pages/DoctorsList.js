@@ -29,7 +29,7 @@ const DoctorsList = () => {
     const aggre = window.confirm(`You Want to Delete, ${modaldata?.name}.`);
     if (aggre) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/doctors/${modaldata.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/doctors/${modaldata.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -51,7 +51,7 @@ const DoctorsList = () => {
       const queryParams = `name=${searchName}`;
 
       const baseUrl =
-        "http://127.0.0.1:8000/api/search/doctor";
+        "https://api.discoverinternationalmedicalservice.com/api/search/doctor";
       const finalUrl = queryParams ? `${baseUrl}?${queryParams}` : baseUrl;
 
       // Fetch data from the API

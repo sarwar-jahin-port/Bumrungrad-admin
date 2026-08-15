@@ -61,7 +61,7 @@ const AddBlogs = () => {
     formData.append("region", country);
     formData.append("blogDescription", editorValue);
     //append data with keys
-    fetch("http://127.0.0.1:8000/api/add/blogs", {
+    fetch("https://api.discoverinternationalmedicalservice.com/api/add/blogs", {
       method: "POST",
       body: formData,
     })

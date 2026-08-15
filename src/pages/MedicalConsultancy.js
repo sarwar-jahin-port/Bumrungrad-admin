@@ -28,7 +28,7 @@ const MedicalConsultancy = () => {
     );
     if (confirmed) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/medical_consultancies/${requestData.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/medical_consultancies/${requestData.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -46,7 +46,7 @@ const MedicalConsultancy = () => {
   const TABLE_HEAD = ["Request ID", "Full Name", "WhatsApp", "Action"];
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/medical-consultancy")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/medical-consultancy")
       .then((res) => res.json())
       .then((data) => {
         setRequests(data.data || []);

@@ -57,7 +57,7 @@ const OneBlogs = () => {
   // get data
   useEffect(() => {
     fetch(
-      `http://127.0.0.1:8000/api/get/blogs/${slug}`
+      `https://api.discoverinternationalmedicalservice.com/api/get/blogs/${slug}`
     )
       .then((res) => res.json())
       .then((data) => {
@@ -88,7 +88,7 @@ const OneBlogs = () => {
     formData.append("blogDescription", editorValue);
     //append data with keys
     fetch(
-      `http://127.0.0.1:8000/api/update/blogs/${oneBlog?.id}`,
+      `https://api.discoverinternationalmedicalservice.com/api/update/blogs/${oneBlog?.id}`,
       {
         method: "POST",
         body: formData,

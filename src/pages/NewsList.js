@@ -6,7 +6,7 @@ const NewsList = () => {
   const [allNews, setAllNews] = useState([]);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/news")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/news")
       .then((res) => res.json())
       .then((data) => {
         setAllNews(data.data);
@@ -18,7 +18,7 @@ const NewsList = () => {
     const aggre = window.confirm(`You Want to Delete, ${oneNews?.newsTitle}.`);
     if (aggre) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/news/${oneNews.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/news/${oneNews.id}`
       )
         .then((res) => res.json())
         .then((data) => {

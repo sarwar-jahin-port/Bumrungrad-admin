@@ -12,7 +12,7 @@ export default function Users() {
     )
     if (aggre) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/air_pickups/${user.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/air_pickups/${user.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -30,7 +30,7 @@ export default function Users() {
   //get user data
   useEffect(() => {
     setLoader(true);
-    fetch("http://127.0.0.1:8000/api/get/users")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/users")
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {

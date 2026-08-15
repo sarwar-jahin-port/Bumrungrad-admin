@@ -37,7 +37,7 @@ export default function AirAmbulanceHubs() {
 
   const fetchHubs = () => {
     setLoader(true)
-    fetch('http://127.0.0.1:8000/api/get/air/ambulance/hubs')
+    fetch('https://api.discoverinternationalmedicalservice.com/api/get/air/ambulance/hubs')
       .then((res) => res.json())
       .then((data) => {
         setHubs(data.status === 200 ? data.data : [])
@@ -85,8 +85,8 @@ export default function AirAmbulanceHubs() {
     Object.keys(form).forEach((key) => body.append(key, form[key]))
 
     const url = activeHubId
-      ? `http://127.0.0.1:8000/api/update/air/ambulance/hub/${activeHubId}`
-      : 'http://127.0.0.1:8000/api/create/air/ambulance/hub'
+      ? `https://api.discoverinternationalmedicalservice.com/api/update/air/ambulance/hub/${activeHubId}`
+      : 'https://api.discoverinternationalmedicalservice.com/api/create/air/ambulance/hub'
 
     try {
       const response = await fetch(url, { method: 'POST', body })
@@ -111,7 +111,7 @@ export default function AirAmbulanceHubs() {
     }
     try {
       const response = await fetch(
-        `http://127.0.0.1:8000/api/delete/air/ambulance/hub/${hub.id}`,
+        `https://api.discoverinternationalmedicalservice.com/api/delete/air/ambulance/hub/${hub.id}`,
       )
       const data = await response.json()
       if (data.status === 200) {

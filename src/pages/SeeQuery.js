@@ -27,7 +27,7 @@ const SeeQuery = () => {
     );
     if (aggre) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/questions/${oneQuery.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/questions/${oneQuery.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -51,7 +51,7 @@ const SeeQuery = () => {
     "Action",
   ];
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/questions")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/questions")
       .then((res) => res.json())
       .then((data) => {
         setAllQuery(data.data);

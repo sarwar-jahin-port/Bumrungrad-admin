@@ -114,7 +114,7 @@ const ChildPackageDetails = () => {
 
   //get parent package
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/package")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/package")
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 404) {
@@ -127,7 +127,7 @@ const ChildPackageDetails = () => {
   //get packages details
   useEffect(() => {
     setLoader(true);
-    fetch(`http://127.0.0.1:8000/api/get/sub/package/${slug}`)
+    fetch(`https://api.discoverinternationalmedicalservice.com/api/get/sub/package/${slug}`)
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 200) {
@@ -171,7 +171,7 @@ const ChildPackageDetails = () => {
     formData.append("exclusions", JSON.stringify(exclusions));
 
     fetch(
-      `http://127.0.0.1:8000/api/update/sub/package/${childDetailsPackage?.id}`,
+      `https://api.discoverinternationalmedicalservice.com/api/update/sub/package/${childDetailsPackage?.id}`,
       {
         method: "POST",
         body: formData,

@@ -122,7 +122,7 @@ export default function AddPackages() {
 
   //get parent package
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/get/package')
+    fetch('https://api.discoverinternationalmedicalservice.com/api/get/package')
       .then((res) => res.json())
       .then((data) => {
         if (data.status === 404) {
@@ -148,7 +148,7 @@ export default function AddPackages() {
       formData.append('slug', parentSlug)
       formData.append('description', description)
 
-      fetch('http://127.0.0.1:8000/api/create/package', {
+      fetch('https://api.discoverinternationalmedicalservice.com/api/create/package', {
         method: 'POST',
         body: formData,
       })
@@ -195,7 +195,7 @@ export default function AddPackages() {
       formData.append('inclusions', JSON.stringify(inclusions))
       formData.append('exclusions', JSON.stringify(exclusions))
 
-      fetch('http://127.0.0.1:8000/api/create/sub/package', {
+      fetch('https://api.discoverinternationalmedicalservice.com/api/create/sub/package', {
         method: 'POST',
         body: formData,
       })

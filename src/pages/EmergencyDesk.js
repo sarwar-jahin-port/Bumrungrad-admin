@@ -27,7 +27,7 @@ const EmergencyDesk = () => {
     );
     if (confirmed) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/emergency_desks/${requestData.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/emergency_desks/${requestData.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -45,7 +45,7 @@ const EmergencyDesk = () => {
   const TABLE_HEAD = ["Request ID", "Full Name", "WhatsApp", "Action"];
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/emergency-desk")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/emergency-desk")
       .then((res) => res.json())
       .then((data) => {
         setRequests(data.data || []);

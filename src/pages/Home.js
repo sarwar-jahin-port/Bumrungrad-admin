@@ -7,7 +7,7 @@ export default function Home() {
   const [allData, setAllDta] = useState()
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/get/category/length')
+    fetch('https://api.discoverinternationalmedicalservice.com/api/get/category/length')
       .then((res) => res.json())
       .then((data) => {
         setAllDta(Object.values(data?.data))

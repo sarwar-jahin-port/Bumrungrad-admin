@@ -258,7 +258,7 @@ export default function AddDoctors() {
 
   //get speacilities
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/get/specialty')
+    fetch('https://api.discoverinternationalmedicalservice.com/api/get/specialty')
       .then((res) => res.json())
       .then((data) => {
         if (data?.response?.status === 200) {
@@ -274,7 +274,7 @@ export default function AddDoctors() {
     setSubSpecialities([])
     if (parentSpecialityId) {
       fetch(
-        `http://127.0.0.1:8000/api/get/selected/sub/specialty/${parentSpecialityId}`
+        `https://api.discoverinternationalmedicalservice.com/api/get/selected/sub/specialty/${parentSpecialityId}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -330,7 +330,7 @@ export default function AddDoctors() {
     //array of array
     formData.append('schedule', JSON.stringify(schedules))
 
-    fetch('http://127.0.0.1:8000/api/add/doctor', {
+    fetch('https://api.discoverinternationalmedicalservice.com/api/add/doctor', {
       method: 'POST',
       body: formData,
     })

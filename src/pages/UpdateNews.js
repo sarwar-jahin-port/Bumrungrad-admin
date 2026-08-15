@@ -13,7 +13,7 @@ const UpdateNews = () => {
   const [newsImg, setNewsImg] = useState("");
 
   useEffect(() => {
-    fetch(`http://127.0.0.1:8000/api/get/news/${id}`)
+    fetch(`https://api.discoverinternationalmedicalservice.com/api/get/news/${id}`)
       .then((res) => res.json())
       .then((data) => {
         setOneNews(data.data);
@@ -32,7 +32,7 @@ const UpdateNews = () => {
     formData.append("newsSlogan", e.target.slogan.value);
     formData.append("newsDescription", e.target.descriptiion.value);
 
-    fetch(`http://127.0.0.1:8000/api/update/news/${id}`, {
+    fetch(`https://api.discoverinternationalmedicalservice.com/api/update/news/${id}`, {
       method: "POST",
       body: formData,
     })

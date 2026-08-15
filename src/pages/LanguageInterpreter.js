@@ -27,7 +27,7 @@ const LanguageInterpreter = () => {
     );
     if (confirmed) {
       fetch(
-        `http://127.0.0.1:8000/api/delete/language_interpreters/${requestData.id}`
+        `https://api.discoverinternationalmedicalservice.com/api/delete/language_interpreters/${requestData.id}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -45,7 +45,7 @@ const LanguageInterpreter = () => {
   const TABLE_HEAD = ["Request ID", "Full Name", "WhatsApp", "Action"];
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/api/get/language-interpreter")
+    fetch("https://api.discoverinternationalmedicalservice.com/api/get/language-interpreter")
       .then((res) => res.json())
       .then((data) => {
         setRequests(data.data || []);

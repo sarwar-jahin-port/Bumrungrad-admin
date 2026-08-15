@@ -6,7 +6,7 @@ export default function FreeConsultations() {
   const [consultations, setConsultations] = useState([])
 
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/get/free-consultations')
+    fetch('https://api.discoverinternationalmedicalservice.com/api/get/free-consultations')
       .then((res) => res.json())
       .then((data) => {
         setConsultations(data.status === 200 ? data.data : [])
