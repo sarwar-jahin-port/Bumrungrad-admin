@@ -81,7 +81,9 @@ const OneBlogs = () => {
     //   editorValue,
     // };
     const formData = new FormData();
-    formData.append("blogImage", blogImg !== "" ? blogImg : null);
+    if (blogImg !== "") {
+      formData.append("blogImage", blogImg);
+    }
     formData.append("blogTitle", name);
     formData.append("slug", slug);
     formData.append("region", country);
@@ -104,7 +106,11 @@ const OneBlogs = () => {
           setLoader1(false);
         }
       })
-      .catch((e) => console.error(e));
+      .catch((e) => {
+        console.error(e);
+        window.alert("Failed to update blog. Please try again.");
+        setLoader1(false);
+      });
   };
 
   const countries = [
